@@ -17,7 +17,7 @@ def getUsers(userid, option="", getall=False):
 def getUserid(email):
         return dbquery(f"SELECT IdUser FROM User WHERE email = \'{email}\'")[0]
 
-def authenticate():
+def authenticate(session):
         if not session.get('userid'):
                 return False
         return True
