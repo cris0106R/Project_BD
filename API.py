@@ -84,7 +84,7 @@ def dologin():
     
 @app.route("/api/games", methods=['GET'])  # Accepting the methods ['GET'], ['POST', 'GET']
 def games():
-    if !authenticate(): # TODO: use the following 3 lines of code to prevent access to unauthed users
+    if not authenticate(session): # TODO: use the following 3 lines of code to prevent access to unauthed users
         message = "401 Unauthenticated" 
         return error(message) 
     result = getGames(connection, cursor)
