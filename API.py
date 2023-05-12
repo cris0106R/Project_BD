@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request, session, redirect
 from mysql import connector
 from films import getFilms, get_fav_films, get_user_info
 from gameCenter import getGames
+from utilities import *
 
 # * Default flask project (don't change)
 app = Flask(__name__)
@@ -67,8 +68,25 @@ def viewGames():
 # *################################*#
 
 # * API Pages -- User should usually not go on these sites#
+@app.route("/api/login", methods=['POST'])
+def dologin():
+    email = request.form.get('email')
+    result = dbquery(f"SELECT IdUser FROM User where email = \'{email}\'")
+    
+    if not result:
+        message = "User does not exist!"
+        return error(message)
+    
+    session['userid'] = getUserid(email)
+
+    return redirect("/dashboard")
+    
+    
 @app.route("/api/games", methods=['GET'])  # Accepting the methods ['GET'], ['POST', 'GET']
 def games():
+    if !authenticate(): # TODO: use the following 3 lines of code to prevent access to unauthed users
+        message = "401 Unauthenticated" 
+        return error(message) 
     result = getGames(connection, cursor)
     return jsonify(result)
     # return render_template("front.html") # * Renders the HTML page
