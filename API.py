@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = "secret_key"
 app.config['SESSION_TYPE'] = 'filesystem'
 
-
+#TODO Repplace the front.html with index.html or just remove this route
 @app.route("/", methods=['GET'])
 def homeTest():
     return render_template("front.html")
