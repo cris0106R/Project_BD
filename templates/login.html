@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Log-in</title>
+        <link rel="shortcut icon" href="../static/styles/rsc/console.ico" type="image/x-icon">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400&display=swap"
+            rel="stylesheet">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/login.css') }}">   <!--Add only if css file is extern--->
+
+        <body>
+            <header>
+                <a href="index" class="logo" style="margin-left: 2vmin;">Game Center</a>
+                <!--<button class="login-btn" href="/src/login.html" style="margin-right: 2vmin;">Login</button>-->
+            </header>
+
+            <div>
+                <!--<h1>Game Center</h1>-->
+            </div>
+            <div class="container">
+                <h2 style="opacity: 1;">Login</h1>
+                <form>
+                    <label for="username" style="color : #d8d8d8">Username:</label><br>
+                    <input type="text" id="username" name="username"
+                        placeholder="Username" required style="opacity: 1;"><br>
+                    <!--<label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" placeholder="Password" required><br>
+    -->
+                    <input onclick="location.href = 'dashboard'" type="submit" value="Login">
+                </form>
+                <!--<div class="color-swatch"></div>--->
+            </div>
+
+
+
+
+
+
+        </body>
+    </html>

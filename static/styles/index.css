@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Log-in</title>
-        <link rel="shortcut icon" href="../../static/styles/rsc/console.ico" type="image/x-icon">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400&display=swap"
-            rel="stylesheet">
-        <!--<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/test.css') }}">   * Add only if css file is extern-->
-
-        <style>
-        
-        body {
+body {
             margin: 0;
             font-family: 'Prompt', sans-serif;
             color: white;
@@ -38,11 +21,11 @@
 			padding: 25px;
 			box-shadow: 0 0 100px rgba(0, 0, 0, 0.4);
 			text-align: center;
-            
+
 		}
         h1 {
             text-align: center;
-			margin-top: 0;
+			margin: 7vmin;
 			font-size: 50px;
 			color: #d8d8d8;
 		}
@@ -85,6 +68,37 @@
 			margin: 20px auto;
 		}
 
+/*
+        button{
+            position: relative;
+			/*margin: 1vmin auto; /*Position of the container
+			width: 100px;
+			background-color: rgba(99, 94, 105, 0.3);
+            border: 0;
+			border-radius: 7px;
+			padding: 10px;
+			box-shadow: 0 0 100px rgba(0, 0, 0, 0.4);
+			text-align: center;
+            color: antiquewhite;
+        }
+
+        .login{
+            position: absolute;
+            transform: translate(80vw);
+            transform: translate(70vmax);
+            text-size-adjust: 35px;
+        }
+
+        .login:hover{
+            background-color: rgba(48, 45, 59, 0.5);
+            cursor: pointer;
+        }
+
+        .login:active{
+            transform: translateY(1.5px);
+        }*/
+
+
         header {
             display: flex;
             justify-content: space-between;
@@ -98,14 +112,15 @@
             font-weight: bold;
             color: white;
             text-decoration: none;
+            cursor:default;
         }
 
         .logo:hover {
-            text-decoration: underline;
+            text-decoration: none;
         }
 
         .login-btn {
-            background-color: #100024;
+            background-color: rgba(99, 94, 105, 0.3);
             color: white;
             padding: 12px 20px;
             border: none;
@@ -117,35 +132,8 @@
         login-btn:hover {
             background-color: #1a0036;
         }
-        
-    </style>
-        <body>
-            <header>
-                <a href="/src/index.html" class="logo" style="margin-left: 2vmin;">Game Center</a>
-                <!--<button class="login-btn" href="/src/login.html" style="margin-right: 2vmin;">Login</button>-->
-            </header>
 
-            <div>
-                <!--<h1>Game Center</h1>-->
-            </div>
-            <div class="container">
-                <h2 style="opacity: 1;">Login</h1>
-                <form>
-                    <label for="username" style="color : #d8d8d8">Username:</label><br>
-                    <input type="text" id="username" name="username"
-                        placeholder="Username" required style="opacity: 1;"><br>
-                    <!--<label for="password">Password:</label><br>
-                <input type="password" id="password" name="password" placeholder="Password" required><br>
-    -->
-                    <input onclick="location.href = 'dashboard.html'" type="submit" value="Login">
-                </form>
-                <!--<div class="color-swatch"></div>--->
-            </div>
-
-
-
-
-
-
-        </body>
-    </html>
+        section{
+            margin-left: 2vmin;
+            margin-right: 2vmin;
+        }

@@ -1,18 +1,19 @@
 from flask import Flask, jsonify, render_template, redirect, session, request
 from utilities import *
-
+from gameCenter import *
 
 # * Default flask project (don't change)
 app = Flask(__name__)
 app.secret_key = "secret_key"
 app.config['SESSION_TYPE'] = 'filesystem'
 
+
 @app.route("/", methods=['GET'])
 def homeTest():
     return render_template("front.html")
     #
-    #result = getGames(connection, cursor)
-    #return jsonify(result)
+	# result = getGames(connection, cursor)
+	# return jsonify(result)
 
 
 @app.route("/index", methods=['GET'])
@@ -23,19 +24,30 @@ def home():
 
 @app.route("/dashboard", methods=['GET'])
 def dashboard():
-	if not authenticate(session):
-		message = "401 Unauthenticated"
-		return error(message)
-	return render_template("dashboard.html")
+    if not authenticate(session):
+        message = "401 Unauthenticated"
+        return error(message)
+    return render_template("dashboard.html")
 
+@app.route("/profile", methods = ['POST','GET'])
+def profile():
+    return render_template("profile.html")
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
-    return render_template("./login.html")
+    return render_template("login.html")
 
+#
 @app.route("/games", methods=['GET'])
 def viewGames():
     return render_template("games.html")
+
+
+@app.route("/all-games", methods=['GET'])
+def viewAllGames():
+    return render_template("games.html")
+
+
 
 
 # *################################*#
@@ -43,32 +55,33 @@ def viewGames():
 # * API Pages -- User should usually not go on these sites#
 @app.route("/api/login", methods=['POST'])
 def dologin():
-	email = request.form.get('email')
-	userid = dbquery(f"SELECT IdUser FROM User WHERE email = \'{email}\'")
-	
-	if not userid:
-		message = "User does not exist!"
-		return error(message)
-	
-	setSession(session,userid)
+    email = request.form.get('email')
+    userid = dbquery(f"SELECT IdUser FROM User WHERE email = \'{email}\'")
 
-	return redirect("/dashboard")
+    if not userid:
+        message = "User does not exist!"
+        return error(message)
 
-@app.route("/api/games", methods=['GET'])  # Accepting the methods ['GET'], ['POST', 'GET']
+    setSession(session, userid)
+
+    return redirect("/dashboard")
+
+
+@app.route("/api/all-games", methods=['GET'])  # Accepting the methods ['GET'], ['POST', 'GET']
 def games():
-	if not authenticate(session):
-		message = "401 Unauthenticated"
-		return error(message)
-	return ""
-    # return render_template("front.html") # * Renders the HTML page
+    result = getAllGames(connection, cursor)
+    return jsonify(result)
+
+
+# return render_template("front.html") # * Renders the HTML page
 
 
 @app.route("/api/<user>/infos", methods=['GET'])
 def user_infos(user):
-	if not authenticate(session):
-		message = "401 Unauthenticated"
-		return error(message)
-	return ""
+    if not authenticate(session):
+        message = "401 Unauthenticated"
+        return error(message)
+    return ""
 
 
 # *################################*#

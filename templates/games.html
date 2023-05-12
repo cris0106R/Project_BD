@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="dashboardStyle.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/test.css') }}">
 
     <script>
         async function showAllGames() {
-            let url = '/api/games'
+            let url = '/api/all-games'
             let response = await fetch(url);
             let data = await response.json()
 
@@ -43,6 +43,47 @@
     </div>
     <h4>List of all games</h4>
     <div class="" id="all_Games">
+
+        <div class=" reservation">
+        <h2>Your Current Reservations</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Game</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Room</th>
+                    <th>Cancel</th>
+                </tr>
+            </thead>
+            <tbody class="reservation-text">
+                <tr>
+                    <td>Monopoly</td>
+                    <td>2023-05-10</td>
+                    <td>14:00</td>
+                    <td>4</td>
+                    <td><button class="reservation-cancel">Cancel</button></td>
+                </tr>
+                <tr>
+                    <td>Chess</td>
+                    <td>2023-05-12</td>
+                    <td>15:30</td>
+                    <td>2</td>
+                    <td><button class="reservation-cancel">Cancel</button></td>
+                </tr>
+                <tr>
+                    <td>Scrabble</td>
+                    <td>2023-05-14</td>
+                    <td>16:00</td>
+                    <td>7</td>
+                    <td><button class="reservation-cancel">Cancel</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="make-reservation-btn">Make Reservation</button>
+    </div>
+
+
         <a>All games</a>
     </div>
 
