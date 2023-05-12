@@ -28,7 +28,7 @@ def dbquery(q, action="select"):
                         if rows:
                                 for r in rows:
                                         result.append(r)
-                                return result[0][0]
+                                return result[0]
 
 
 # *################################*#
