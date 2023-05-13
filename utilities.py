@@ -1,5 +1,6 @@
 from mysql import connector
 from socket import gethostname
+from datetime import date
 
 # * Database connection details
 database="Project"
@@ -98,6 +99,16 @@ def getRoomcapacity(roomid):
 		return None
 	return result[0][0]
 
+def isRoomfull(roomid):
+	sessionid = getSessionid("Room", roomid)
+	query = f"SELECT COUNT(DISTINCT(IdUser)) FROM Reservation WHERE IdSession = {sessionid}"
+	result = dbquery(query)
+	if not result:
+		return None
+	if result == getRoomcapcity(roomid):
+		return True
+	return False
+
 # User related helper functions:
 def getUsers():
 	query = f"SELECT name from User"
@@ -130,19 +141,50 @@ def getUseremail(userid):
 		return None
 	return result[0][0]
 
-def getUserbalance(userid)
+def getUserbalance(userid):
 	query = f"SELECT balance FROM User WHERE IdUser = {userid}"
 	result = dbquery(query)
 	if not result:
 		return None
 	return result[0][0]
 
+def changeUseremail(userid, newemail):
+	query = f"UPDATE User SET email = \'{newemail}\' WHERE IdUser = {userid}"
+	dbquery(query, "UPDATE")	
+
+def changeUsername(userid, newname):
+	query = f"UPDATE User SET name = \'{newname}\' WHERE IdUser = {userid}"
+	dbquery(query, "UPDATE")
+
+def addUserbalance(userid, amount):
+	amount = getUserbalanace(userid) + amount
+	query = f"UPDATE User SET balance = {amount} WHERE IdUser = {userid}"
+	dbquery(query, "UPDATE")
+
+
+# Game Session related helper functions:
+def getSessionid(_type, _id):
+	query = f"SELECT IdSession FROM Session WHERE Id{_type} = {_id}"
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
+
+def newSession(gameid):
+	if not getmaxid("Session"): # if it's the first session to be created
+		gamesessionid = 0
+	gamesessionid =  getmaxid("Session") + 1
+	roomid = __import__('random').randrange(getmaxid("Room"))
+	date =  date.today().strftime("%d/%m/%Y")
+	query = f"INSERT INTO Session (Session.IdSession, Session.IdRoom, Session.IdGame, Session.date) VALUES ({gamesessionid}, {roomid}, {gameid}, {date})"
+	dbquery(query, "INSERT")
+
 
 # Web Session related helper functions:
-def setSession(session, userid):
+def setWebSession(session, userid):
 	session['userid'] = userid
 
-def unsetSession(session):
+def unsetWebSession(session):
 	session['userid'] = None
 
 def authenticate(session):
@@ -152,5 +194,15 @@ def authenticate(session):
 
 
 # Other helper functions:
+def getmaxid(table):
+	query = f"SELECT MAX(Id{table}) FROM {table}"
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
+
+def getcount(table):
+	return getmaxid(table)
+
 def error(message,redirect=""):
 	return f"<script>alert(\'{message}\');window.location.assign(\'http://localhost:5000/{redirect}\')</script>"
