@@ -1,12 +1,16 @@
 from mysql import connector
+from socket import gethostname
 
 # * Database connection details
+database="Project"
+if gethostname() == "Entropy":
+	database="bd_proj"
 connection = connector.connect(
     host="localhost",
     port=3306,
     user="root",
     password="root", #empty for Will /TODO Change if doesn't work
-    database="Project"  # for Will it's  was "bd_proj" For Georg it's "Project"             /This is for testing"testingFlask", change if shit fucks up
+    database=database  # for Will it's  was "bd_proj" For Georg it's "Project"             /This is for testing"testingFlask", change if shit fucks up
 )
 
 
@@ -37,11 +41,17 @@ def getGames():
 
 def getGameid(game_title):
 	query = f"SELECT IdGame FROM Game WHERE game_title = \'{game_title}\'"
-	return dbquery(query)[0][0]
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
 
 def getGametitle(gameid):
 	query = f"SELECT game_title FROM Game WHERE IdGame = {gameid}"
-	return dbquery(query)[0][0]
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
 
 # User related helper functions:
 def getUsers():
@@ -56,11 +66,17 @@ def getUsers():
 
 def getUserid(email):
 	query = f"SELECT IdUser FROM User WHERE email = \'{email}\'"
-	return dbquery(query)[0][0]
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
 
 def getUsername(userid):
 	query = f"SELECT name FROM User WHERE IdUser = {userid}"
-	return dbquery(query)[0][0]
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
 
 # Session related helper functions:
 def setSession(session, userid):
@@ -75,6 +91,5 @@ def authenticate(session):
 	return True
 
 
-
-def error(message):
-	return f"<script>alert(\'{message}\');window.location.assign(\'http://localhost:5000/\')</script>"
+def error(message,redirect=""):
+	return f"<script>alert(\'{message}\');window.location.assign(\'http://localhost:5000/{redirect}\')</script>"

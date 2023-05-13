@@ -27,7 +27,7 @@ def dashboard():
     if not authenticate(session):
         message = "401 Unauthenticated"
         return error(message)
-    return render_template("dashboard.html")
+    return render_template("dashboard.html", username=getUsername(session['userid']))
 
 @app.route("/profile", methods = ['POST','GET'])
 def profile():
@@ -56,16 +56,20 @@ def viewAllGames():
 @app.route("/api/login", methods=['POST'])
 def dologin():
     email = request.form.get('email')
-    userid = dbquery(f"SELECT IdUser FROM User WHERE email = \'{email}\'")
+    userid = getUserid(email)
 
     if not userid:
         message = "User does not exist!"
-        return error(message)
+        return error(message,"/login")
 
     setSession(session, userid)
 
     return redirect("/dashboard")
 
+@app.route("/api/logout", methods=['GET'])
+def dologout():
+	unsetSession(session)
+	return redirect("/login")
 
 @app.route("/api/all-games", methods=['GET'])  # Accepting the methods ['GET'], ['POST', 'GET']
 def games():

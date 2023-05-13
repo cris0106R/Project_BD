@@ -21,11 +21,11 @@
             <a href="index.html" class="logo" style="margin-left: 2vmin;">Game Center</a>
             <div class="">
             <div class="dropdown">
-                <button class="dropdown">Your Name</button>
+                <button class="dropdown">{{username}}</button>
                 <div class="dropdown-content">
                     <button href="#">Profile</button>
                     <button href="#">Reservations</button>
-                    <button href="#">Logout</button>
+                    <button onclick="window.location.href='http://localhost:5000/api/logout';">Logout</button>
                 </div>
             </div>
         </div>
