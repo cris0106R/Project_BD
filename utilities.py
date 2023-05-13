@@ -53,6 +53,51 @@ def getGametitle(gameid):
 		return None
 	return result[0][0]
 
+def getGamerating(gameid):
+	query = f"SELECT user_rating FROM Game WHERE IdGame = {gameid}"
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
+
+def getGamecopyright(gamied):
+	query = f"SELECT copyright FROM Game WHERE IdGame = {gameid}"
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
+
+# Room related helper functions:
+def getRooms():
+	query = f"SELECT room_name from Room"
+	result = dbquery(query)
+	rooms = []
+
+	for i in len(result):
+		rooms.append(result[i][0])
+	return rooms
+
+def getRoomid(room_name):
+	query = f"SELECT IdRoom FROM Room WHERE room_name = \'{room_name}\'"
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
+
+def getRoomname(roomid):
+	query = f"SELECT room_name FROM Room WHERE IdRoom = {roomid}"
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
+
+def getRoomcapacity(roomid):
+	query = f"SELECT room_capacity FROM Room WHERE IdRoom = {roomid}"
+	result = dbqueryh(query)
+	if not result:
+		return None
+	return result[0][0]
+
 # User related helper functions:
 def getUsers():
 	query = f"SELECT name from User"
@@ -78,7 +123,22 @@ def getUsername(userid):
 		return None
 	return result[0][0]
 
-# Session related helper functions:
+def getUseremail(userid):
+	query = f"SELECT email FROM User WHERE IdUser = {userid}"
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
+
+def getUserbalance(userid)
+	query = f"SELECT balance FROM User WHERE IdUser = {userid}"
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
+
+
+# Web Session related helper functions:
 def setSession(session, userid):
 	session['userid'] = userid
 
@@ -91,5 +151,6 @@ def authenticate(session):
 	return True
 
 
+# Other helper functions:
 def error(message,redirect=""):
 	return f"<script>alert(\'{message}\');window.location.assign(\'http://localhost:5000/{redirect}\')</script>"
