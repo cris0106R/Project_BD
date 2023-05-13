@@ -29,6 +29,25 @@ def dbquery(q, action="select"):
                                         result.append(r)
                                 return result # <-- result is an array, to access first row use result[0], to access first column value of first row use result[0][0]
 
+# Reservation related helper functions:
+# TODO Crisitan must complete this part 
+# NOTE: getting a user's reservation is already implemented in the user helper function section
+def getReservations():
+	return ""
+
+def getReservationid(sessionid):
+	return ""
+
+def getReservationtime(reservationid):
+	return ""
+
+def addReservation(userid, alloctime):
+	return ""
+
+def deleteReservation(reservationid):
+	return ""
+
+
 
 # Game related helper functions:
 def getGames():
@@ -116,7 +135,7 @@ def getUsers():
 	usernames = []
 
 	for i in len(result):
-		usernames.append(usernames[i][0])
+		usernames.append(result[i][0])
 	return usernames
 	
 
@@ -148,6 +167,13 @@ def getUserbalance(userid):
 		return None
 	return result[0][0]
 
+def getUserreservation(userid):
+	query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}":
+	result = dbquery(query)
+	if not result:
+		return None
+	return result[0][0]
+
 def changeUseremail(userid, newemail):
 	query = f"UPDATE User SET email = \'{newemail}\' WHERE IdUser = {userid}"
 	dbquery(query, "UPDATE")	
@@ -171,13 +197,22 @@ def getSessionid(_type, _id):
 	return result[0][0]
 
 def newSession(gameid):
-	if not getmaxid("Session"): # if it's the first session to be created
+	gamesessionid =  getmaxid("Session") 
+	if not gamesessionid: # if it's the first session to be created
 		gamesessionid = 0
-	gamesessionid =  getmaxid("Session") + 1
+	else:
+		gamesessionid += 1
+
 	roomid = __import__('random').randrange(getmaxid("Room"))
-	date =  date.today().strftime("%d/%m/%Y")
-	query = f"INSERT INTO Session (Session.IdSession, Session.IdRoom, Session.IdGame, Session.date) VALUES ({gamesessionid}, {roomid}, {gameid}, {date})"
-	dbquery(query, "INSERT")
+
+	for r in getRooms():
+		if roomid != getRoomid(r):
+			date =  date.today().strftime("%d/%m/%Y")
+			query = f"INSERT INTO Session (Session.IdSession, Session.IdRoom, Session.IdGame, Session.date) VALUES ({gamesessionid}, {roomid}, {gameid}, {date})"
+			dbquery(query, "INSERT")
+	
+	message = "Cannot create new session, no rooms available!"
+	error(message)
 
 
 # Web Session related helper functions:
