@@ -62,13 +62,13 @@ def dologin():
         message = "User does not exist!"
         return error(message,"/login")
 
-    setSession(session, userid)
+    setWebSession(session, userid)
 
     return redirect("/dashboard")
 
 @app.route("/api/logout", methods=['GET'])
 def dologout():
-	unsetSession(session)
+	unsetWebSession(session)
 	return redirect("/login")
 
 @app.route("/api/all-games", methods=['GET'])  # Accepting the methods ['GET'], ['POST', 'GET']
