@@ -130,7 +130,7 @@ def getUseremail(userid):
 		return None
 	return result[0][0]
 
-def getUserbalance(userid)
+def getUserbalance(userid):
 	query = f"SELECT balance FROM User WHERE IdUser = {userid}"
 	result = dbquery(query)
 	if not result:
