@@ -35,7 +35,7 @@ def dbquery(q, action="select"):
 def getReservations():
 	return ""
 
-def getReservationid(sessionid):
+def getReservationid(userid):
 	return ""
 
 def getReservationtime(reservationid):
@@ -168,7 +168,7 @@ def getUserbalance(userid):
 	return result[0][0]
 
 def getUserreservation(userid):
-	query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}":
+	query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}"
 	result = dbquery(query)
 	if not result:
 		return None
@@ -210,9 +210,9 @@ def newSession(gameid):
 			date =  date.today().strftime("%d/%m/%Y")
 			query = f"INSERT INTO Session (Session.IdSession, Session.IdRoom, Session.IdGame, Session.date) VALUES ({gamesessionid}, {roomid}, {gameid}, {date})"
 			dbquery(query, "INSERT")
+			return 0
 	
-	message = "Cannot create new session, no rooms available!"
-	error(message)
+	return 1
 
 
 # Web Session related helper functions:
