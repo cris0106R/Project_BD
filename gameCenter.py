@@ -1,11 +1,16 @@
 from mysql import connector
+from socket import gethostname
+
+database = "Project"
+if gethostname() == "Entropy":
+	database = "bd_proj"
 
 connection = connector.connect(
     host="localhost",
     port=3306,
     user="root",
     password="root", #empty for Will /TODO Change if doesn't work
-    database="Project"  # for Will it's  was "bd_proj" For Georg it's "Project"             /This is for testing"testingFlask", change if shit fucks up
+    database=database  # for Will it's  was "bd_proj" For Georg it's "Project"             /This is for testing"testingFlask", change if shit fucks up
 )
 
 cursor = connection.cursor()
