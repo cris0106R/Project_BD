@@ -21,16 +21,43 @@
             <a href="index.html" class="logo" style="margin-left: 2vmin;">Game Center</a>
             <div class="">
             <div class="dropdown">
-                <button class="dropdown">Your Name</button>
+                <button class="dropdown-btn">{{username}}</button>
                 <div class="dropdown-content">
-                    <button href="#">Profile</button>
-                    <button href="#">Reservations</button>
-                    <button href="#">Logout</button>
+                    <button onclick="window.location.href='http://127.0.0.1:5000/profile';">Profile</button>
+                    <button onclick="window.location.href='http://127.0.0.1:5000/dashboard';">Reservations</button>
+                    <button onclick="window.location.href='http://127.0.0.1:5000/api/logout';">Logout</button>
                 </div>
             </div>
         </div>
     </div>
             <!-- Main container -->
+
+        <div class="games-container">
+            <h2>{{username}}</h2>
+            <table>
+                <tbody class="reservation-text" id="all_Games">
+                    <tr>
+                        <th>E-Mail:</th>
+                        <th>{{email}}</th>
+                    </tr>
+                    <tr>
+                        <th>Balance:</th>
+                        <th>CHF {{balance}}.-</th>
+                    </tr>
+                </tbody>
+            </table>
+
+           <form action="http://127.0.0.1:5000/api/topup" method="POST">
+                    <label for="Amount" style="color : #d8d8d8">Amount:</label><br>
+                    <input type="number" id="Amount" name="Amount"
+                        placeholder="Amount" required style="opacity: 1;"><br>
+                    <!--<label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" placeholder="Password" required><br>
+    -->
+                    <input type="submit" value="Add">
+                </form>
+        </div>
+
 
 </body>
 </html>

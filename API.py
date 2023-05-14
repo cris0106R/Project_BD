@@ -7,13 +7,15 @@ app = Flask(__name__)
 app.secret_key = "secret_key"
 app.config['SESSION_TYPE'] = 'filesystem'
 
-#TODO Repplace the front.html with index.html or just remove this route
+
 @app.route("/", methods=['GET'])
 def homeTest():
-    return render_template("front.html")
+    return render_template("index.html")
     #
-	# result = getGames(connection, cursor)
-	# return jsonify(result)
+
+
+# result = getGames(connection, cursor)
+# return jsonify(result)
 
 
 @app.route("/index", methods=['GET'])
@@ -29,13 +31,19 @@ def dashboard():
         return error(message)
     return render_template("dashboard.html", username=getUsername(session['userid']))
 
-@app.route("/profile", methods = ['POST','GET'])
+
+@app.route("/profile", methods=['POST', 'GET'])
 def profile():
-    return render_template("profile.html")
+    if not authenticate(session):
+        message = "401 Unauthenticated"
+        return error(message)
+    return render_template("profile.html", username=getUsername(session['userid']), email = getUseremail(session['userid']), balance = getUserBalance(session['userid']))
+
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     return render_template("login.html")
+
 
 #
 @app.route("/games", methods=['GET'])
@@ -48,8 +56,6 @@ def viewAllGames():
     return render_template("games.html")
 
 
-
-
 # *################################*#
 
 # * API Pages -- User should usually not go on these sites#
@@ -60,21 +66,25 @@ def dologin():
 
     if not userid:
         message = "User does not exist!"
-        return error(message,"/login")
+        return error(message, "login")
 
     setWebSession(session, userid)
 
     return redirect("/dashboard")
 
+
 @app.route("/api/logout", methods=['GET'])
 def dologout():
-	unsetWebSession(session)
-	return redirect("/login")
+    unsetWebSession(session)
+    return redirect("/login")
+
 
 @app.route("/api/all-games", methods=['GET'])  # Accepting the methods ['GET'], ['POST', 'GET']
 def games():
-    result = getAllGames(connection, cursor)
-    return jsonify(result)
+
+    return getAllGamesInfo()
+    #result = getAllGames(connection, cursor)
+    #return jsonify(result)
 
 
 # return render_template("front.html") # * Renders the HTML page
@@ -87,6 +97,18 @@ def user_infos(user):
         return error(message)
     return ""
 
+@app.route("/api/topup", methods=['GET', 'POST'])
+def topupBalance():
+    if not authenticate(session):
+        message = "401 Unaunthenticated"
+        return error(message)
+
+    amount = request.form.get('Amount')
+    userid = session['userid']
+
+    addUserBalance(userid, amount)
+    return redirect("/profile")
+
 
 # *################################*#
 
@@ -98,4 +120,3 @@ def user_infos(user):
 
 # * Running the app
 app.run(debug=True)
-
