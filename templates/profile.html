@@ -31,32 +31,55 @@
         </div>
     </div>
             <!-- Main container -->
+        <section id ="MainSection">
+        <form action="http://127.0.0.1:5000/api/emailchange" method="POST" id="email-change"></form>
+        <form action="http://127.0.0.1:5000/api/topup" method="POST" id="topup"></form>
 
         <div class="games-container">
             <h2>{{username}}</h2>
             <table>
-                <tbody class="reservation-text" id="all_Games">
-                    <tr>
+                <tbody class="reservation-text">
+                    <tr id="email">
                         <th>E-Mail:</th>
                         <th>{{email}}</th>
+                        <th id="change-btn">Change</th>
                     </tr>
                     <tr>
                         <th>Balance:</th>
                         <th>CHF {{balance}}.-</th>
+                        <th id="topup-btn">Top-up</th>
                     </tr>
                 </tbody>
             </table>
-
-           <form action="http://127.0.0.1:5000/api/topup" method="POST">
-                    <label for="Amount" style="color : #d8d8d8">Amount:</label><br>
-                    <input type="number" id="Amount" name="Amount"
-                        placeholder="Amount" required style="opacity: 1;"><br>
-                    <!--<label for="password">Password:</label><br>
-                <input type="password" id="password" name="password" placeholder="Password" required><br>
-    -->
-                    <input type="submit" value="Add">
-                </form>
         </div>
+        </section>
+
+
+
+    <script>
+        // Change email button functionality
+        const change_email_btn = document.querySelector('#change-btn');
+        change_email_btn.addEventListener('click', () => {
+            document.getElementById("email").innerHTML = '';
+            document.getElementById("email").innerHTML +=  '<th>' + 'E-Mail:' + '</th>' + '<th>' +'<input type="email" id="email-change" form ="email-change" name="email-change" placeholder={{email}} required style="opacity: 1;">' + '</th>' + '<th>'+'<input type="submit" value="Change" form="email-change">'+'<th>' ;});
+
+        const topup_btn = document.querySelector('#topup-btn');
+        topup_btn.addEventListener('click', () => {
+            document.getElementById("MainSection").innerHTML += '<div class="games-container">\n' +
+                '            \n' +
+                '                    <label for="Amount" style="color : #d8d8d8">Amount:</label><br>\n' +
+                '                    <input type="number" form="topup" id="Amount" name="Amount"\n' +
+                '                        placeholder="Amount" required style="opacity: 1;"><br>\n' +
+                '                    <!--<label for="password">Password:</label><br>\n' +
+                '                <input type="password" id="password" name="password" placeholder="Password" required><br>\n' +
+                '    -->\n' +
+                '                    <input type="submit" value="Add" form="topup">\n' +
+                '            \n' +
+                '        </div>';});
+    </script>
+
+
+
 
 
 </body>

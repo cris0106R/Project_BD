@@ -246,3 +246,8 @@
             padding: 0.5em 1em;
         }
 
+		#change-btn:hover, #topup-btn:hover{
+			text-decoration : underline;
+			cursor: pointer;
+		}
+

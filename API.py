@@ -89,7 +89,7 @@ def games():
 
 # return render_template("front.html") # * Renders the HTML page
 
-
+# TODO Check if this route is needed
 @app.route("/api/<user>/infos", methods=['GET'])
 def user_infos(user):
     if not authenticate(session):
@@ -108,6 +108,19 @@ def topupBalance():
 
     addUserBalance(userid, amount)
     return redirect("/profile")
+
+@app.route("/api/emailchange", methods=['GET', 'POST'])
+def changeEmail():
+    if not authenticate(session):
+        message = "401 Unaunthenticated"
+        return error(message)
+
+    userid = session['userid']
+    newemail = request.form.get('email-change')
+    changeUseremail(userid, newemail)
+    return redirect("/profile")
+
+
 
 
 # *################################*#
