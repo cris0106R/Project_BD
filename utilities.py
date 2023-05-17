@@ -35,15 +35,29 @@ def dbquery(q, action="select"):
 # TODO Crisitan must complete this part 
 # NOTE: getting a user's reservation is already implemented in the user helper function section
 def getReservations():
-    return ""
+    query = f"SELECT IdReservation FROM Reservation"
+    result = dbquery(query)
+    Reservation = []
+
+    for i in range(len(result)):
+        Reservation.append(result[i][0])
+    return Reservation
 
 
 def getReservationid(userid):
-    return ""
+    query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}"
+    result = dbquery(query)
+    if not result:
+        return None
+    return result[0][0]
 
-
+#time=date
 def getReservationtime(reservationid):
-    return ""
+    query = f"SELECT date FROM Reservation WHERE IdReservation = {reservationid}"
+    result = dbquery(query)
+    if not result:
+        return None
+    return result[0][0]
 
 
 def addReservation(userid, alloctime):
@@ -51,7 +65,8 @@ def addReservation(userid, alloctime):
 
 
 def deleteReservation(reservationid):
-    return ""
+    query = f"DELETE from Reservations WHERE IdReservation = {idReservation}"
+    dbquery(query, "DELETE")
 
 
 # Game related helper functions:
