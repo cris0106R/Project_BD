@@ -35,7 +35,14 @@ def dbquery(q, action="select"):
 # TODO Crisitan must complete this part 
 # NOTE: getting a user's reservation is already implemented in the user helper function section
 def getReservations():
-    return ""
+    query = f"SELECT IdReservation FROM Reservation"
+    result = dbquery(query)
+    Reservation = []
+
+    for i in range(len(result)):
+        Reservation.append(result[i][0])
+    return Reservation
+
 
 
 def getReservationid(userid):
