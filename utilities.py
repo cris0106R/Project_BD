@@ -46,19 +46,42 @@ def getReservations():
 
 
 def getReservationid(userid):
-    return ""
+    query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}"
+    result = dbquery(query)
+    if not result:
+        return None
+    return result[0][0]
 
 
+def getReservationdate(reservationid):
+    query = f"SELECT date FROM Reservation,Session WHERE reservation.IdSession = Session.IdSession AND IdReservation= {reservationid}"
+    result = dbquery(query)
+    if not result:
+        return None
+    return result[0][0]
+
+#time=alloc_time
 def getReservationtime(reservationid):
-    return ""
+    query = f"SELECT time_alloc FROM Reservation WHERE IdReservation = {reservationid}"
+    result = dbquery(query)
+    if not result:
+        return None
+    return result[0][0]
 
+def addReservation(sessionid, userid, alloctime):
+    reservationid = getmaxid("Reservation")
+    if not reservationid:  
+        reservationid = 0
+    else:
+        reservationid += 1
+    
+    query = f"INSERT INTO Reservation (Reservation.IdReservation, Reservation.IdSession, Reservation.IdUser, Reservation.time_alloc) VALUES ({reservationid}, {sessionid}, {userid}, {alloctime})"
+    dbquery(query, "INSERT")
 
-def addReservation(userid, alloctime):
-    return ""
-
-
+    
 def deleteReservation(reservationid):
-    return ""
+    query = f"DELETE from Reservations WHERE IdReservation = {idReservation}"
+    dbquery(query, "DELETE")
 
 
 # Game related helper functions:
@@ -73,6 +96,7 @@ def getGames():
     for i in range(len(result)):
         games.append(result[i][0])
     return games
+
 
 def getAllGamesInfo():
     query = f"SELECT * FROM Game"
