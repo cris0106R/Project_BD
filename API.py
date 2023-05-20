@@ -176,7 +176,7 @@ def newReservation():
     if not verifyUsertime(userid):    # if not, check if user's desired alloc_time doesn't exceed MAX_HOUR (defined in utilities.py)
         message = "You exceeded the maximum play hour"
         return error(message)
-    elif isRoomfull == True:
+    elif isRoomfull(getSessionroomid(getSessionid("Game", gameid))) == True:
         message = "Room is full!"
         return error(message)
  
