@@ -182,8 +182,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background-color: #454153;
+            padding: 10px;
+            background-color: rgb(67, 64, 64, 0.4);
       }
 
         .header h1 {
@@ -229,7 +229,7 @@
             font-weight: bold;
             color: white;
             text-decoration: none;
-            cursor:default;
+            cursor: default;
         }
 
         .logo:hover {
@@ -250,4 +250,5 @@
 			text-decoration : underline;
 			cursor: pointer;
 		}
+
 

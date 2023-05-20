@@ -236,6 +236,13 @@ def getUserreservation(userid):
         return None
     return result[0][0]
 
+def createAccount(name, email):
+    query_size = f"SELECT COUNT(IdUser) FROM User"
+    size = dbquery(query_size)
+    updated_size = size[0][0]
+    print(updated_size)
+    query = f"INSERT INTO User (User.IdUser, User.name, User.email, User.balance) VALUES ({updated_size}, '\{name}\', '\{email}\', 0);"
+    dbquery(query, "INSERT")
 
 def changeUseremail(userid, newemail):
     query = f"UPDATE User SET email = \'{newemail}\' WHERE IdUser = {userid}"

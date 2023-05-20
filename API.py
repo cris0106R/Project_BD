@@ -19,9 +19,10 @@ def homeTest():
 
 
 @app.route("/index", methods=['GET'])
-# @cross_origin(origin='*', headers=['Content-Type']) # * Only uncomment if you know what you are doing. If you need this..then you're fucked. GL
+# @cross_origin(origin='*', headers=['Content-Type']) # * Only uncomment if you know what you are doing. GL
 def home():
     return render_template("index.html")
+
 
 
 @app.route("/dashboard", methods=['GET'])
@@ -42,6 +43,8 @@ def profile():
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
+    if authenticate(session):
+        return redirect("/dashboard")
     return render_template("login.html")
 
 
@@ -72,6 +75,17 @@ def dologin():
 
     return redirect("/dashboard")
 
+@app.route("/api/createAccount", methods=['POST'])
+def doCreateAccount():
+    name = request.form.get('name')
+    email = request.form.get('email')
+
+    createAccount(name, email)
+
+    userid = getUserid(email)
+
+    setWebSession(session, userid)
+    return redirect("/dashboard")
 
 @app.route("/api/logout", methods=['GET'])
 def dologout():
@@ -81,7 +95,6 @@ def dologout():
 
 @app.route("/api/all-games", methods=['GET'])  # Accepting the methods ['GET'], ['POST', 'GET']
 def games():
-
     return getAllGamesInfo()
     #result = getAllGames(connection, cursor)
     #return jsonify(result)
