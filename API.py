@@ -80,12 +80,18 @@ def doCreateAccount():
     name = request.form.get('name')
     email = request.form.get('email')
 
-    createAccount(name, email)
-
+    #Testing if already exits
     userid = getUserid(email)
+    if userid:
+        message = "User already exists"
+        return error(message, "login")
+    else:
+        createAccount(name, email)
 
-    setWebSession(session, userid)
-    return redirect("/dashboard")
+        userid = getUserid(email)
+
+        setWebSession(session, userid)
+        return redirect("/dashboard")
 
 @app.route("/api/logout", methods=['GET'])
 def dologout():
