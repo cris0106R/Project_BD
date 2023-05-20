@@ -266,7 +266,7 @@ def addUserBalance(userid, amount):
 def verifyUsertime(userid):
     query = f"SELECT SUM(time_alloc) FROM Reservation WHERE IdUser = {userid}"
     result = dbquery(query)
-    if result >= MAX_HOUR:	# Users can only play for maxiumum of MAX_HOUR
+    if result[0][0] >= MAX_HOUR:	# Users can only play for maxiumum of MAX_HOUR
         return None
     return True
 
@@ -306,7 +306,7 @@ def newSession(gameid):
                 query = f"INSERT INTO Session (Session.IdSession, Session.IdRoom, Session.IdGame, Session.date) VALUES ({gamesessionid}, {i}, {gameid}, CURDATE())"
                 dbquery(query, "INSERT")
                 return gamesessionid
-    return False
+    return None
 
 # Web Session related helper functions:
 def setWebSession(session, userid):
