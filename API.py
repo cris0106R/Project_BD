@@ -24,7 +24,6 @@ def home():
     return render_template("index.html")
 
 
-
 @app.route("/dashboard", methods=['GET'])
 def dashboard():
     if not authenticate(session):
@@ -67,7 +66,7 @@ def dologin():
     email = request.form.get('email')
     userid = getUserid(email)
 
-    if not userid:
+    if userid == None:
         message = "User does not exist!"
         return error(message, "login")
 
@@ -80,18 +79,12 @@ def doCreateAccount():
     name = request.form.get('name')
     email = request.form.get('email')
 
-    #Testing if already exits
+    createAccount(name, email)
+
     userid = getUserid(email)
-    if userid:
-        message = "User already exists"
-        return error(message, "login")
-    else:
-        createAccount(name, email)
 
-        userid = getUserid(email)
-
-        setWebSession(session, userid)
-        return redirect("/dashboard")
+    setWebSession(session, userid)
+    return redirect("/login")
 
 @app.route("/api/logout", methods=['GET'])
 def dologout():
@@ -102,9 +95,6 @@ def dologout():
 @app.route("/api/all-games", methods=['GET'])  # Accepting the methods ['GET'], ['POST', 'GET']
 def games():
     return getAllGamesInfo()
-    #result = getAllGames(connection, cursor)
-    #return jsonify(result)
-
 
 # return render_template("front.html") # * Renders the HTML page
 
@@ -119,7 +109,7 @@ def user_infos(user):
 @app.route("/api/topup", methods=['GET', 'POST'])
 def topupBalance():
     if not authenticate(session):
-        message = "401 Unaunthenticated"
+        message = "401 Unauthenticated"
         return error(message)
 
     amount = request.form.get('Amount')
@@ -131,7 +121,7 @@ def topupBalance():
 @app.route("/api/emailchange", methods=['GET', 'POST'])
 def changeEmail():
     if not authenticate(session):
-        message = "401 Unaunthenticated"
+        message = "401 Unauthenticated"
         return error(message)
 
     userid = session['userid']
@@ -139,8 +129,51 @@ def changeEmail():
     changeUseremail(userid, newemail)
     return redirect("/profile")
 
+@app.route("/api/view_reservations", methods=['GET', 'POST'])
+def viewReservations():
+    if not authenticate(session):
+        message = "401 Unauthenticated"
+        return error(message)
 
+    userid = session['userid']
+    reservationid = getReservationid(userid)
+    reservationdate = getReservationdate(reservationid)
+    reservationtime = getUsertime(reservationid)
+    sessionid = getSessionid("Reservation", reservationid)
+    gamename = getGamename(getSessiongameid(sessionid))
+    roomname = getRoomname(getSessionroom(sessionid))
+    return 
 
+@app.route("/api/new_reservation", methods=['GET', 'POST'])
+def newReservation():
+    if not authenticate(session):
+        message = "401 Unauthenticated"
+        return error(message)
+
+    userid = session['userid']
+    usertime = request.form.get('time')
+    game = request.form.get('game')
+    gameid = getGameid(game)
+    reservationid = getUserreservation(userid)
+
+    if not reservationid:	# if this is the first reservation made by the user
+        sessionid = newSession(gameid)
+        if sessionid != False:
+            message = "Error creating new session"
+            error(message)
+        addReservation(sessionid, userid, usertime)
+        return redirect("/dashboard")
+    	
+    if not verifyUsertime(userid):    # if not, check if user's desired alloc_time doesn't exceed MAX_HOUR (defined in utilities.py)
+        message = "You exceeded the maximum play hour"
+        return error(message)
+    elif isRoomfull == True:
+        message = "Room is full!"
+        return error(message)
+ 
+    sessionid = getSessionid("Reservation", reservationid)
+    addReservation(sessionid, userid, usertime) 
+    return redirect("dashboard")
 
 # *################################*#
 

@@ -11,10 +11,11 @@ connection = connector.connect(
     port=3306,
     user="root",
     password="root",  # empty for Will /TODO Change if doesn't work
-    database = "Project"
+    database = database
     # for Will it's  was "bd_proj" For Georg it's "Project"             /This is for testing"testingFlask", change if shit fucks up
 )
 
+MAX_HOUR = 8
 
 # * sql query wrapper
 def dbquery(q, action="select"):
@@ -32,8 +33,6 @@ def dbquery(q, action="select"):
 
 
 # Reservation related helper functions:
-# TODO Crisitan must complete this part 
-# NOTE: getting a user's reservation is already implemented in the user helper function section
 def getReservations():
     query = f"SELECT IdReservation FROM Reservation"
     result = dbquery(query)
@@ -48,7 +47,7 @@ def getReservations():
 def getReservationid(userid):
     query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -56,7 +55,7 @@ def getReservationid(userid):
 def getReservationdate(reservationid):
     query = f"SELECT date FROM Reservation,Session WHERE reservation.IdSession = Session.IdSession AND IdReservation= {reservationid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -64,18 +63,19 @@ def getReservationdate(reservationid):
 def getReservationtime(reservationid):
     query = f"SELECT time_alloc FROM Reservation WHERE IdReservation = {reservationid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
 def addReservation(sessionid, userid, alloctime):
     reservationid = getmaxid("Reservation")
-    if not reservationid:  
+    if reservationid == None:  
         reservationid = 0
     else:
         reservationid += 1
-    
+	
     query = f"INSERT INTO Reservation (Reservation.IdReservation, Reservation.IdSession, Reservation.IdUser, Reservation.time_alloc) VALUES ({reservationid}, {sessionid}, {userid}, {alloctime})"
+    print(query)
     dbquery(query, "INSERT")
 
     
@@ -104,14 +104,13 @@ def getAllGamesInfo():
     games = []
     for i in range(len(result)):
         games.append(result[i])
-    print(games)
     return games
 
 
 def getGameid(game_title):
     query = f"SELECT IdGame FROM Game WHERE game_title = \'{game_title}\'"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -119,7 +118,7 @@ def getGameid(game_title):
 def getGametitle(gameid):
     query = f"SELECT game_title FROM Game WHERE IdGame = {gameid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -127,7 +126,7 @@ def getGametitle(gameid):
 def getGamerating(gameid):
     query = f"SELECT user_rating FROM Game WHERE IdGame = {gameid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -135,7 +134,7 @@ def getGamerating(gameid):
 def getGamecopyright(gamied):
     query = f"SELECT copyright FROM Game WHERE IdGame = {gameid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -146,7 +145,7 @@ def getRooms():
     result = dbquery(query)
     rooms = []
 
-    for i in len(result):
+    for i in range(len(result)):
         rooms.append(result[i][0])
     return rooms
 
@@ -154,7 +153,7 @@ def getRooms():
 def getRoomid(room_name):
     query = f"SELECT IdRoom FROM Room WHERE room_name = \'{room_name}\'"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -162,7 +161,7 @@ def getRoomid(room_name):
 def getRoomname(roomid):
     query = f"SELECT room_name FROM Room WHERE IdRoom = {roomid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -170,7 +169,7 @@ def getRoomname(roomid):
 def getRoomCapacity(roomid):
     query = f"SELECT room_capacity FROM Room WHERE IdRoom = {roomid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -179,8 +178,6 @@ def isRoomfull(roomid):
     sessionid = getSessionid("Room", roomid)
     query = f"SELECT COUNT(DISTINCT(IdUser)) FROM Reservation WHERE IdSession = {sessionid}"
     result = dbquery(query)
-    if not result:
-        return None
     if result == getRoomCapacity(roomid):
         return True
     return False
@@ -192,7 +189,7 @@ def getUsers():
     result = dbquery(query)
     usernames = []
 
-    for i in len(result):
+    for i in range(len(result)):
         usernames.append(result[i][0])
     return usernames
 
@@ -200,7 +197,7 @@ def getUsers():
 def getUserid(email):
     query = f"SELECT IdUser FROM User WHERE email = \'{email}\'"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -208,7 +205,7 @@ def getUserid(email):
 def getUsername(userid):
     query = f"SELECT name FROM User WHERE IdUser = {userid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -216,7 +213,7 @@ def getUsername(userid):
 def getUseremail(userid):
     query = f"SELECT email FROM User WHERE IdUser = {userid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -224,7 +221,7 @@ def getUseremail(userid):
 def getUserBalance(userid):
     query = f"SELECT balance FROM User WHERE IdUser = {userid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
@@ -232,7 +229,14 @@ def getUserBalance(userid):
 def getUserreservation(userid):
     query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}"
     result = dbquery(query)
-    if not result:
+    if result == None:
+        return None
+    return result[0][0]
+
+def getUsertime(userid):
+    query = f"SELECT SUM(time_alloc) FROM Reservation WHERE IdUser = {userid}"
+    result = dbquery(query)
+    if result == None:
         return None
     return result[0][0]
 
@@ -259,34 +263,50 @@ def addUserBalance(userid, amount):
     query = f"UPDATE User SET balance = {amount} WHERE IdUser = {userid}"
     dbquery(query, "UPDATE")
 
+def verifyUsertime(userid):
+    query = f"SELECT SUM(time_alloc) FROM Reservation WHERE IdUser = {userid}"
+    result = dbquery(query)
+    if result >= MAX_HOUR:	# Users can only play for maxiumum of MAX_HOUR
+        return None
+    return True
 
 # Game Session related helper functions:
 def getSessionid(_type, _id):
     query = f"SELECT IdSession FROM Session WHERE Id{_type} = {_id}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
+def getSessiongameid(sessionid):
+    query = f"SELECT IdGame FROM Session WHERE IdSession = {sessionid}"
+    result = dbquery(query)
+    if result == None:
+        return None
+    return result[0][0]
+
+def getSessionroomid(sessionid):
+    query = f"select IdRoom FROM Session WHERE IdSession = {sessionid}"
+    result = dbquery(query)
+    if result == None:
+        return None
+    return result[0][0]
 
 def newSession(gameid):
     gamesessionid = getmaxid("Session")
-    if not gamesessionid:  # if it's the first session to be created
+    if gamesessionid == None:  # if it's the first session to be created
         gamesessionid = 0
     else:
         gamesessionid += 1
 
-    roomid = __import__('random').randrange(getmaxid("Room"))
-
-    for r in getRooms():
-        if roomid != getRoomid(r):
-            date = date.today().strftime("%d/%m/%Y")
-            query = f"INSERT INTO Session (Session.IdSession, Session.IdRoom, Session.IdGame, Session.date) VALUES ({gamesessionid}, {roomid}, {gameid}, {date})"
-            dbquery(query, "INSERT")
-            return 0
-
-    return 1
-
+    rand_roomids = __import__('random').sample(range(getmaxid("Room")), getmaxid("Room")) 
+    for i in rand_roomids:
+        for j in getRooms():
+            if i != getRoomid(j):
+                query = f"INSERT INTO Session (Session.IdSession, Session.IdRoom, Session.IdGame, Session.date) VALUES ({gamesessionid}, {i}, {gameid}, CURDATE())"
+                dbquery(query, "INSERT")
+                return gamesessionid
+    return False
 
 # Web Session related helper functions:
 def setWebSession(session, userid):
@@ -298,7 +318,7 @@ def unsetWebSession(session):
 
 
 def authenticate(session):
-    if not session.get('userid'):
+    if session.get('userid') == None:
         return False
     return True
 
@@ -307,7 +327,7 @@ def authenticate(session):
 def getmaxid(table):
     query = f"SELECT MAX(Id{table}) FROM {table}"
     result = dbquery(query)
-    if not result:
+    if result == None:
         return None
     return result[0][0]
 
