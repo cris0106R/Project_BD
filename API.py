@@ -160,7 +160,7 @@ def newReservation():
         sessionid = newSession(gameid)
         if sessionid == False:
             message = "Error creating new session"
-            error(message)
+            return error(message)
         addReservation(sessionid, userid, usertime)
         return redirect("/dashboard")
     	
