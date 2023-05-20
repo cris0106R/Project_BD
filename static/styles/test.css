@@ -46,7 +46,7 @@
 
 
 		.reservation {
-
+			position: relative;
 			width: 80%;
             max-width: 800px;
 			flex-direction: row;
@@ -211,9 +211,11 @@
         }
 
         th, td {
-            padding: 0.5em 1em;
-			font-weight:500;
+            padding: 0.5em 0.5em;
         }
+		th{
+			font-weight:500;
+		}
 
 		#change-btn:hover, #topup-btn:hover{
 			text-decoration : underline;

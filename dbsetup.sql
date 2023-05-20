@@ -5,15 +5,19 @@ CREATE TABLE Session (IdSession INT, IdRoom INT, IdGame INT, date DATE, PRIMARY 
 CREATE TABLE Reservation (IdReservation INT, IdSession INT, IdUser INT, time_alloc INT, PRIMARY KEY (IdReservation), FOREIGN KEY (IdSession) REFERENCES Session(IdSession), FOREIGN KEY (IdUser) REFERENCES User(IdUser));
 /* Table values */
 /* Room */
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (0, "Jabee", 4);
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (1, "Basler", 10);
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (2, "Prime", 14);
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (3, "Roche1", 18);
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (4, "Roche2", 22);
+INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (0, 'Jabee' , 4);
+INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (1, 'Basler', 10);
+INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (2, 'Prime', 14);
+INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (3, 'Roche1', 18);
+INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (4, 'Roche2', 22);
+
+/* Users */
+INSERT INTO User (IdUser, name, email, balance) VALUES
+                                                    (0,'Bill','bill@nowhere.com',40),
+                                                    (1,'Joe','joe@nowhere.com',100),
+                                                    (2,'Lisa','lisa@nowhere.com',295);
 
 /* Game */
-
-
 INSERT INTO Game (IdGame, game_title, user_rating, copyright) VALUES
 	('1', 'Counter-Strike: Global Offensive', '83', '0'),
 	('2', 'Dota 2', '90', '0'),

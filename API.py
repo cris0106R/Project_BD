@@ -52,10 +52,16 @@ def login():
 def viewGames():
     return render_template("games.html")
 
-
 @app.route("/all-games", methods=['GET'])
 def viewAllGames():
     return render_template("games.html")
+
+@app.route("/reservation", methods=['GET', 'POST'])
+def makeReservation():
+    if not authenticate(session):
+        message = "401 Unauthenticated"
+        return error(message)
+    return render_template("reservation.html", username=getUsername(session['userid']))
 
 
 # *################################*#
@@ -131,6 +137,7 @@ def changeEmail():
 
 @app.route("/api/view_reservations", methods=['GET', 'POST'])
 def viewReservations():
+
     if not authenticate(session):
         message = "401 Unauthenticated"
         return error(message)
@@ -140,9 +147,10 @@ def viewReservations():
     reservationdate = getReservationdate(reservationid)
     reservationtime = getUsertime(reservationid)
     sessionid = getSessionid("Reservation", reservationid)
-    gamename = getGamename(getSessiongameid(sessionid))
-    roomname = getRoomname(getSessionroom(sessionid))
-    return 
+    gamename = getGametitle(getSessiongameid(sessionid))
+    roomname = getRoomname(getSessionroomid(sessionid))
+    result = (gamename, reservationdate, reservationtime, roomname)
+    return result
 
 @app.route("/api/new_reservation", methods=['GET', 'POST'])
 def newReservation():
@@ -151,6 +159,7 @@ def newReservation():
         return error(message)
 
     userid = session['userid']
+    result = request.form
     usertime = request.form.get('time')
     game = request.form.get('game')
     gameid = getGameid(game)

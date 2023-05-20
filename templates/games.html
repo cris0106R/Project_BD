@@ -21,13 +21,7 @@
 
            document.getElementById("all_Games").innerHTML = '';
             for(i = 0; i < data.length; i++){
-                //document.getElementById("all_Games").innerHTML += data[]
-
-                //    <b>Rating: <span id=stars></span></b>
-
-
                 document.getElementById("all_Games").innerHTML += '<b>' + '<tr> <td>' + data[i][0] + '</td> <td>' + data[i][1] + '</td>  <td>' + getStars(data[i][2]) + '</td>  <td>' + data[i][3] + '</td> </tr>' +  '</b><br>'; // TODO If game is 0, then change to free or put the baseline price
-                //document.getElementById("all_Games").innerHTML += 'ID: ' + data["data"][i]["id"] + '<br>'; // titre en bold
             }
             function getStars(rating) {
                 rating = rating/20

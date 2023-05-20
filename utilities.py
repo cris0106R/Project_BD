@@ -3,7 +3,7 @@ from socket import gethostname
 from datetime import date
 
 # * Database connection details
-database="Project"
+database="NewProjectSchema"
 if gethostname() == "Entropy":
     database = "bd_proj"
 connection = connector.connect(
@@ -80,7 +80,7 @@ def addReservation(sessionid, userid, alloctime):
 
     
 def deleteReservation(reservationid):
-    query = f"DELETE from Reservations WHERE IdReservation = {idReservation}"
+    query = f"DELETE from Reservation WHERE IdReservation = {reservationid}"
     dbquery(query, "DELETE")
 
 
@@ -131,7 +131,7 @@ def getGamerating(gameid):
     return result[0][0]
 
 
-def getGamecopyright(gamied):
+def getGamecopyright(gameid):
     query = f"SELECT copyright FROM Game WHERE IdGame = {gameid}"
     result = dbquery(query)
     if result == None:

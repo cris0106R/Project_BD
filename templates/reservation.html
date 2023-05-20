@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Make reservation</title>
+	<link rel="shortcut icon" href="../static/styles/rsc/console.ico" type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/test.css') }}">
+
+    <script>
+
+    async function addAllGames(){
+        let url = '/api/all-games'
+        let response = await fetch(url);
+        let data = await response.json()
+
+        for(i = 0; i < data.length; i++){
+            document.getElementById("allTheGames").innerHTML += '<option value="'+ data[i][1]+'"></option>';
+
+        }
+    }
+
+        window.onload = async function(){
+             await addAllGames()
+        }
+
+    </script>
+
+    </head>
+    <body>
+        <!-- Header bar -->
+        <div class="header">
+            <a href="index" class="logo" style="margin-left: 2vmin;">Game Center</a>
+            <div class="dropdown">
+                <button class="dropdown-btn">{{username}}</button>
+                <div class="dropdown-content">
+                    <button onclick="window.location.href='http://127.0.0.1:5000/profile';">Profile</button>
+                    <button onclick="window.location.href='http://127.0.0.1:5000/dashboard';">Reservations</button>
+                    <button onclick="window.location.href='http://127.0.0.1:5000/api/logout';">Logout</button>
+                </div>
+            </div>
+        </div>
+            <!-- Main container -->
+    <div class= "reservation">
+        <form  action="http://127.0.0.1:5000/api/new_reservation" method="POST">
+            <label for="game" style="color: #d8d8d8">Game:</label>
+            <input type="text" id="game" name="game" placeholder="Game" list="allTheGames">
+            <input type="date" id="date">
+            <input type="number" id="time" name="time" placeholder="Time">
+            <input type="number" placeholder="Amount of people">
+
+            <input type="submit" value="Make reservation">
+
+            <datalist id="allTheGames">
+            </datalist>
+
+
+        </form>
+
+
+        <button class="make-reservation-btn">Make Reservation</button>
+
+    </div>
+
+    <!-- All games button -->
+
+    <script>
+        // Login button functionality
+        const loginBtn = document.querySelector('.login-btn');
+        loginBtn.addEventListener('click', () => {
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

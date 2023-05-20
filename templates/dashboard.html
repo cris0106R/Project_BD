@@ -10,6 +10,30 @@
 	<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/test.css') }}">
 
+    <script>
+        // Login button functionality
+        const loginBtn = document.querySelector('.login-btn');
+        loginBtn.addEventListener('click', () => {
+            window.location.href = 'login.html';
+        });
+
+        async function showAllReservations() {
+            let url = '/api/view_reservations'
+            let response = await fetch(url);
+            let data = await response.json()
+
+            document.getElementById("reservationsss").innerHTML = '';
+            for (i = 0; i < data.length; i++) {
+                document.getElementById("reservationsss").innerHTML += '<b>' + '<tr> <td>' + data[i][0] + '</td> <td>' + data[i][1] + '</td>  <td>' + getStars(data[i][2]) + '</td>  <td>' + data[i][3] + '</td> </tr>' + '</b><br>'; // TODO If game is 0, then change to free or put the baseline price
+                //document.getElementById("all_Games").innerHTML += 'ID: ' + data["data"][i]["id"] + '<br>'; // titre en bold
+            }
+        }
+
+        window.onload = async function() {
+            await showAllReservations();
+        }
+    </script>
+
     </head>
     <body>
         <!-- Header bar -->
@@ -37,7 +61,7 @@
                     <th>Cancel</th>
                 </tr>
             </thead>
-            <tbody class="reservation-text">
+            <tbody class="reservation-text" id="reservationsss">
                 <tr>
                     <td>Monopoly</td>
                     <td>2023-05-10</td>
@@ -61,21 +85,12 @@
                 </tr>
             </tbody>
         </table>
-        <button class="make-reservation-btn">Make Reservation</button>
+        <button class="make-reservation-btn" onclick="window.location.href='http://127.0.0.1:5000/reservation';">Make Reservation</button>
         <br>
 
         <button class="make-reservation-btn" onclick="window.location.href='http://127.0.0.1:5000/games';">All Games</button>
 
     </div>
 
-    <!-- All games button -->
-
-    <script>
-        // Login button functionality
-        const loginBtn = document.querySelector('.login-btn');
-        loginBtn.addEventListener('click', () => {
-            window.location.href = 'login.html';
-        });
-    </script>
 </body>
 </html>
