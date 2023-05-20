@@ -156,9 +156,9 @@ def newReservation():
     gameid = getGameid(game)
     reservationid = getUserreservation(userid)
 
-    if not reservationid:	# if this is the first reservation made by the user
+    if getSessionid("Game", gameid) == None: 
         sessionid = newSession(gameid)
-        if sessionid != False:
+        if sessionid == False:
             message = "Error creating new session"
             error(message)
         addReservation(sessionid, userid, usertime)
@@ -171,7 +171,7 @@ def newReservation():
         message = "Room is full!"
         return error(message)
  
-    sessionid = getSessionid("Reservation", reservationid)
+    sessionid = getSessionid("Game", gameid)
     addReservation(sessionid, userid, usertime) 
     return redirect("dashboard")
 
