@@ -30,6 +30,8 @@
 			margin-top: 0;
 			font-size: 50px;
 			color: #d8d8d8;
+			font-weight:500;
+
 		}
 
 		h2 {
@@ -37,16 +39,14 @@
 			margin-top: 0;
 			font-size: 24px;
 			color: #d8d8d8;
+			font-weight:500;
+
 		}
 
 
-        /*.reservation {
-        display: flex;
-        justify-content: center;
-      }*/
+
 		.reservation {
-            display: relative;
-            margin: 25vmin auto; /*Position of the container*/
+
 			width: 80%;
             max-width: 800px;
 			flex-direction: row;
@@ -54,7 +54,7 @@
 			justify-content: space-between;
 			background-color: rgba(255, 255, 255, 0.1);
 			padding: 25px;
-			margin-bottom: 10px;
+			margin: 25vmin auto 10px;/*Position of the container*/
 			border-radius: 5px;
 			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             text-align: center;
@@ -73,9 +73,9 @@
 			color: white;
 			border: none;
 			border-radius: 5px;
-			padding: 5px 10px;
+			padding: 6px 10px;
 			cursor: pointer;
-			transition: background-color 0.3s ease-in-out;
+			transition: background-color 0.2s ease-in-out;
 		}
 
 		.reservation-cancel:hover {
@@ -83,7 +83,7 @@
 		}
 
 		.games-container{
-			display: relative;
+			display: absolute;
             margin: 7vmin auto; /*Position of the container*/
 			width: 80%;
             max-width: 800px;
@@ -192,44 +192,12 @@
             cursor: pointer;
       }
 
-    /*
-      .header button {
-        /*background-color: #100024;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-left: 10px;
-      }*/
-
-      /*.main-container {
-        position: relative;
-        margin: 50px auto;
-        width: 80%;
-        max-width: 1000px;
-        background-color: rgba(99, 94, 105, 0.3);
-        border-radius: 7px;
-        padding: 25px;
-        box-shadow: 0 0 100px rgba(0, 0, 0, 0.4);
-        text-align: center;
-      }
-
-      .main-container h2 {
-        margin-top: 0;
-        font-size: 24px;
-        color: #d8d8d8;
-      }*/
-
-
-      /*Left game center logo*/
       .logo {
             font-size: 30px;
-            font-weight: bold;
-            color: white;
+            font-weight:500;
+            color: #d8d8d8;
             text-decoration: none;
-            cursor: default;
+            cursor:default;
         }
 
         .logo:hover {
@@ -239,11 +207,12 @@
 
         table {
             width: 100%;
-            margin: 0 auto;
+            margin: 3px auto;
         }
 
         th, td {
             padding: 0.5em 1em;
+			font-weight:500;
         }
 
 		#change-btn:hover, #topup-btn:hover{
@@ -251,4 +220,52 @@
 			cursor: pointer;
 		}
 
+		.make-reservation-btn{
+			margin: 5px auto;
+			background-color: rgb(109, 101, 101, 0.5);
+			color: #ededed;
+			border: none;
+			border-radius: 5px;
+			padding: 10px 12px;
+			font-size: 15px;
+			font-weight: 500;
+			cursor: pointer;
+			transition: background-color 0.2s ease-in-out;
+		}
+
+		.make-reservation-btn:hover{
+			background-color: rgba(72, 67, 67, 0.5);
+		}
+
+
+		.login-btn {
+            background-color: #100024;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+		.games-btn{
+            margin: 5px auto;
+            position: absolute;
+            left: 50%;
+            -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+			background-color: rgb(109, 101, 101, 0.5);
+			color: #ededed;
+			border: none;
+			border-radius: 5px;
+			padding: 10px 12px;
+			font-size: 15px;
+			font-weight: 500;
+			cursor: pointer;
+			transition: background-color 0.2s ease-in-out;
+        }
+
+		.games-btn:hover{
+			background-color: rgba(72, 67, 67, 0.5);
+		}
 

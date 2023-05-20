@@ -1,12 +1,13 @@
 body {
             margin: 0;
             font-family: 'Prompt', sans-serif;
+            font-weight: normal;
+            font-style: normal;
             color: white;
             background-color: #100024;
             overflow-x: hidden;
             background-image: url(rsc/blobanimation3.svg);
             background-attachment: fixed;
-            background-size:  200vm;
             background-repeat: no-repeat;
             background-blend-mode: normal;
             background-position: center;
@@ -28,6 +29,8 @@ body {
 			margin: 7vmin;
 			font-size: 50px;
 			color: #d8d8d8;
+            font-weight:500;
+
 		}
 
 		h2 {
@@ -35,10 +38,12 @@ body {
 			margin-top: 0;
 			font-size: 24px;
 			color: #d8d8d8;
+            font-weight:500;
 		}
 
         p {
             text-align: center;
+
         }
 
 		input[type="text"], input[type="password"] {
@@ -114,8 +119,8 @@ body {
 
         .logo {
             font-size: 30px;
-            font-weight: bold;
-            color: white;
+            font-weight:500;
+            color: #d8d8d8;
             text-decoration: none;
             cursor:default;
         }
@@ -125,13 +130,30 @@ body {
         }
 
         .login-btn {
-            background-color: rgba(99, 94, 105, 0.3);
+            background-color: #100024;
             color: white;
             padding: 12px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+        }
+
+        .games-btn{
+            margin: 5px auto;
+            position: absolute;
+            left: 50%;
+            -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+			background-color: rgb(109, 101, 101, 0.5);
+			color: #ededed;
+			border: none;
+			border-radius: 5px;
+			padding: 10px 12px;
+			font-size: 15px;
+			font-weight: 500;
+			cursor: pointer;
+			transition: background-color 0.2s ease-in-out;
         }
 
         login-btn:hover {

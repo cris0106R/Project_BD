@@ -1,12 +1,13 @@
 body {
             margin: 0;
             font-family: 'Prompt', sans-serif;
+            font-weight: normal;
+            font-style: normal;
             color: white;
             background-color: #100024;
             overflow-x: hidden;
             background-image: url(rsc/blobanimation3.svg);
             background-attachment: fixed;
-            background-size:  200vm;
             background-repeat: no-repeat;
             background-blend-mode: normal;
             background-position: center;
@@ -28,12 +29,14 @@ body {
 			margin-top: 0;
 			font-size: 50px;
 			color: #d8d8d8;
+            font-weight:500;
 		}
 
 		h2 {
 			margin-top: 0;
 			font-size: 24px;
 			color: #d8d8d8;
+            font-weight:500;
 		}
 
 		input[type="email"], input[type="text"], input[type="password"] {
@@ -90,9 +93,10 @@ body {
 
         .logo {
             font-size: 30px;
-            font-weight: bold;
-            color: white;
+            font-weight:500;
+            color: #d8d8d8;
             text-decoration: none;
+            cursor:default;
         }
 
         .logo:hover {

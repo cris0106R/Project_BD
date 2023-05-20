@@ -7,8 +7,7 @@
 	<link rel="shortcut icon" href="../static/styles/rsc/console.ico" type="image/x-icon">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400&display=swap" rel="stylesheet">
-
+	<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/test.css') }}">
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -61,16 +60,7 @@
 <body>
     <div class="header">
         <a href="index" class="logo" style="margin-left: 2vmin;">Game Center</a>
-        <div class="">
-        <div class="dropdown">
-            <button class="dropdown-btn">{{username}}</button>
-                <div class="dropdown-content">
-                    <button onclick="window.location.href='http://127.0.0.1:5000/profile';">Profile</button>
-                    <button onclick="window.location.href='http://127.0.0.1:5000/dashboard';">Reservations</button>
-                    <button onclick="window.location.href='http://127.0.0.1:5000/api/logout';">Logout</button>
-                </div>
-        </div>
-        </div>
+        <button class="login-btn" onclick="location.href = 'login';"style="margin-right: 2vmin;">Login</button>
     </div>
 
 
