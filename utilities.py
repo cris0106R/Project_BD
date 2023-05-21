@@ -60,15 +60,15 @@ def getReservationtime(reservationid):
 
 def addReservation(sessionid, userid, alloctime):
     reservationid = getmaxid("Reservation")
-    if reservationid == None:  
+    if reservationid == None:
         reservationid = 0
     else:
         reservationid += 1
-	
+
     query = f"INSERT INTO Reservation (Reservation.IdReservation, Reservation.IdSession, Reservation.IdUser, Reservation.time_alloc) VALUES ({reservationid}, {sessionid}, {userid}, {alloctime})"
     dbquery(query, "INSERT")
 
-    
+
 def deleteReservation(reservationid):
     query = f"DELETE from Reservation WHERE IdReservation = {reservationid}"
     dbquery(query, "DELETE")
@@ -97,14 +97,15 @@ def getAllGamesInfo():
 
 
 def getGameid(game_title):
-    query = f"SELECT IdGame FROM Game WHERE game_title = \'{game_title}\'"
+    game_title = game_title.replace("'", "''")
+    query = f"SELECT IdGame FROM Game WHERE game_title = \'{game_title}\' "
     result = dbquery(query)
     if result == None:
         return None
     return result[0][0]
 
-
 def getGametitle(gameid):
+    gameid = gameid.replace("'", "''")
     query = f"SELECT game_title FROM Game WHERE IdGame = {gameid}"
     result = dbquery(query)
     if result == None:
@@ -174,7 +175,7 @@ def getRoomMaxcapacity(roomid):
 
 
 def isRoomfull(roomid):
-    if getRoomMaxCapacity(roomid) == getRoomcapacity(roomid):
+    if getRoomMaxcapacity(roomid) == getRoomcapacity(roomid):
         return True
     return False
 
@@ -310,7 +311,7 @@ def newSession(gameid):
     else:
         gamesessionid += 1
 
-    rand_roomids = __import__('random').sample(range(getmaxid("Room")), getmaxid("Room")) 
+    rand_roomids = __import__('random').sample(range(getmaxid("Room")), getmaxid("Room"))
     for i in rand_roomids:
         for j in getRooms():
             if i != getRoomid(j):
