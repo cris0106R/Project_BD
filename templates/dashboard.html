@@ -11,20 +11,23 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/test.css') }}">
 
     <script>
+	
         // Login button functionality
+	/*
         const loginBtn = document.querySelector('.login-btn');
         loginBtn.addEventListener('click', () => {
             window.location.href = 'login.html';
         });
+	*/
 
         async function showAllReservations() {
-            let url = '/api/view_reservations'
+            let url = '/api/view_reservations';
             let response = await fetch(url);
-            let data = await response.json()
+            let data = await response.json();
 
             document.getElementById("reservationsss").innerHTML = '';
             for (i = 0; i < data.length; i++) {
-                document.getElementById("reservationsss").innerHTML += '<b>' + '<tr> <td>' + data[i][0] + '</td> <td>' + data[i][1] + '</td>  <td>' + getStars(data[i][2]) + '</td>  <td>' + data[i][3] + '</td> </tr>' + '</b><br>'; // TODO If game is 0, then change to free or put the baseline price
+                document.getElementById("reservationsss").innerHTML += '<b>' + '<tr> <td>' + data[i][1] + '</td> <td>' + data[i][2] + '</td>  <td>' + data[i][3] + '<td><button class="reservation-cancel" onclick="window.location.href=\'http://127.0.0.1:5000/api/delete_reservation?id=' + data[i][0]+ '\';">Cancel</button></td></b>'; // TODO If game is 0, then change to free or put the baseline price
                 //document.getElementById("all_Games").innerHTML += 'ID: ' + data["data"][i]["id"] + '<br>'; // titre en bold
             }
         }
@@ -54,35 +57,13 @@
         <table>
             <thead>
                 <tr>
-                    <th>Game</th>
-                    <th>Date</th>
-                    <th>Time</th>
+                    <th>Game</th>  
                     <th>Room</th>
-                    <th>Cancel</th>
+                    <th>Time</th>
+		    <th>Cancel</th>
                 </tr>
             </thead>
             <tbody class="reservation-text" id="reservationsss">
-                <tr>
-                    <td>Monopoly</td>
-                    <td>2023-05-10</td>
-                    <td>14:00</td>
-                    <td>4</td>
-                    <td><button class="reservation-cancel">Cancel</button></td>
-                </tr>
-                <tr>
-                    <td>Chess</td>
-                    <td>2023-05-12</td>
-                    <td>15:30</td>
-                    <td>2</td>
-                    <td><button class="reservation-cancel">Cancel</button></td>
-                </tr>
-                <tr>
-                    <td>Scrabble</td>
-                    <td>2023-05-14</td>
-                    <td>16:00</td>
-                    <td>7</td>
-                    <td><button class="reservation-cancel">Cancel</button></td>
-                </tr>
             </tbody>
         </table>
         <button class="make-reservation-btn" onclick="window.location.href='http://127.0.0.1:5000/reservation';">Make Reservation</button>

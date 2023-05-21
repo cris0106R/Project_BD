@@ -129,19 +129,12 @@ def changeEmail():
 
 @app.route("/api/view_reservations", methods=['GET', 'POST'])
 def viewReservations():
-
     if not authenticate(session):
         message = "401 Unauthenticated"
         return error(message)
 
     userid = session['userid']
-    reservationid = getReservationid(userid)
-    reservationdate = getReservationdate(reservationid)
-    reservationtime = getUsertime(reservationid)
-    sessionid = getSessionid("Reservation", reservationid)
-    gamename = getGametitle(getSessiongameid(sessionid))
-    roomname = getRoomname(getSessionroomid(sessionid))
-    result = (gamename, reservationdate, reservationtime, roomname)
+    result = getUserReservations(userid)
     return result
 
 @app.route("/api/new_reservation", methods=['GET', 'POST'])
@@ -174,6 +167,17 @@ def newReservation():
     sessionid = getSessionid("Game", gameid)
     addReservation(sessionid, userid, usertime) 
     return redirect("dashboard")
+
+@app.route("/api/delete_reservation", methods=['GET'])
+def delete_Reservation():
+    if not authenticate(session):
+        message = "401 Unauthenticated"
+        return error(message)
+    
+    userid = session['userid']
+    reservationid = request.args.get('id')
+    deleteReservation(reservationid)
+    return redirect("/dashboard")
 
 # *################################*#
 

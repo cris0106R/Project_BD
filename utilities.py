@@ -33,15 +33,6 @@ def dbquery(q, action="select"):
 
 
 # Reservation related helper functions:
-def getReservations():
-    query = f"SELECT IdReservation FROM Reservation"
-    result = dbquery(query)
-    Reservation = []
-
-    for i in range(len(result)):
-        Reservation.append(result[i][0])
-    return Reservation
-
 
 
 def getReservationid(userid):
@@ -82,7 +73,6 @@ def addReservation(sessionid, userid, alloctime):
 def deleteReservation(reservationid):
     query = f"DELETE from Reservation WHERE IdReservation = {reservationid}"
     dbquery(query, "DELETE")
-
 
 # Game related helper functions:
 
@@ -191,6 +181,7 @@ def isRoomfull(roomid):
 
 
 # User related helper functions:
+
 def getUsers():
     query = f"SELECT name from User"
     result = dbquery(query)
@@ -233,12 +224,13 @@ def getUserBalance(userid):
     return result[0][0]
 
 
-#def getUserreservation(userid):
-#    query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}"
-#    result = dbquery(query)
-#    if result == None:
-#        return None
-#    return result[0][0]
+def getUserReservations(userid):
+    query = f"select IdReservation, game_title, room_name, time_alloc from Reservation JOIN Session ON Reservation.IdSession = Session.IdSession JOIN Room ON Session.IdRoom = Room.IdRoom JOIN Game ON Session.IdGame = Game.IdGame WHERE IdUser = {userid};"
+    print(query)
+    result = dbquery(query)
+    if result == None:
+        return None
+    return result
 
 def getUsertime(userid):
     query = f"SELECT SUM(time_alloc) FROM Reservation WHERE IdUser = {userid}"
