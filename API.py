@@ -102,6 +102,12 @@ def dologout():
 def games():
     return getAllGamesInfo()
 
+@app.route("/api/<game>/price", methods=['GET'])
+def getGamePrice(game):
+    gameid = getGameid(game)
+    result = [getGamecopyright(gameid)]
+    return result
+
 # return render_template("front.html") # * Renders the HTML page
 
 @app.route("/api/topup", methods=['GET', 'POST'])
@@ -135,7 +141,7 @@ def viewReservations():
 
     userid = session['userid']
     result = getUserReservations(userid)
-    return result
+    return
 
 @app.route("/api/new_reservation", methods=['GET', 'POST'])
 def newReservation():
@@ -166,7 +172,7 @@ def newReservation():
  
     sessionid = getSessionid("Game", gameid)
     addReservation(sessionid, userid, usertime) 
-    return redirect("dashboard")
+    return redirect("/dashboard")
 
 @app.route("/api/delete_reservation", methods=['GET'])
 def delete_Reservation():
