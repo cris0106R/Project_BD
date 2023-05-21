@@ -166,7 +166,17 @@ def getRoomname(roomid):
     return result[0][0]
 
 
-def getRoomCapacity(roomid):
+def getRoomcapacity(roomid):
+    maxcapacity = getRoomMaxcapacity(roomid)
+    sessionid = getSessionid("Room", roomid)
+
+    query = f"SELECT COUNT(DISTINCT(IdUser)) From Reservation WHERE IdSession = {sessionid}"
+    result = dbquery(query)
+    if result == None:
+        return None
+    return result[0][0]
+
+def getRoomMaxcapacity(roomid):
     query = f"SELECT room_capacity FROM Room WHERE IdRoom = {roomid}"
     result = dbquery(query)
     if result == None:
@@ -175,10 +185,7 @@ def getRoomCapacity(roomid):
 
 
 def isRoomfull(roomid):
-    sessionid = getSessionid("Room", roomid)
-    query = f"SELECT COUNT(DISTINCT(IdUser)) FROM Reservation WHERE IdSession = {sessionid}"
-    result = dbquery(query)
-    if result == getRoomCapacity(roomid):
+    if getRoomMaxCapacity(roomid) == getRoomcapacity(roomid):
         return True
     return False
 
@@ -226,12 +233,12 @@ def getUserBalance(userid):
     return result[0][0]
 
 
-def getUserreservation(userid):
-    query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}"
-    result = dbquery(query)
-    if result == None:
-        return None
-    return result[0][0]
+#def getUserreservation(userid):
+#    query = f"SELECT IdReservation FROM Reservation WHERE IdUser = {userid}"
+#    result = dbquery(query)
+#    if result == None:
+#        return None
+#    return result[0][0]
 
 def getUsertime(userid):
     query = f"SELECT SUM(time_alloc) FROM Reservation WHERE IdUser = {userid}"
@@ -240,12 +247,22 @@ def getUsertime(userid):
         return None
     return result[0][0]
 
+def getUsergames(userid):
+    usergames = []
+    query = f"SELECT IdSession FROM Reservation WHERE IdUser = {userid}"
+    result = dbquery(query)
+    if result == None:
+        return None
+    for i in range(len(result)):
+        gameid = getSessiongameid(result[i][0])
+        game = getGametitle(gameid)
+        usergames.append(game)
+    return usergames
+    
+
 def createAccount(name, email):
-    query_size = f"SELECT COUNT(IdUser) FROM User"
-    size = dbquery(query_size)
-    updated_size = size[0][0]
-    print(updated_size)
-    query = f"INSERT INTO User (User.IdUser, User.name, User.email, User.balance) VALUES ({updated_size}, '\{name}\', '\{email}\', 0);"
+    maxid = getmaxid("User")
+    query = f"INSERT INTO User (User.IdUser, User.name, User.email, User.balance) VALUES ({maxid}, \'{name}\', '\{email}\', 0);"
     dbquery(query, "INSERT")
 
 def changeUseremail(userid, newemail):
@@ -263,11 +280,13 @@ def addUserBalance(userid, amount):
     query = f"UPDATE User SET balance = {amount} WHERE IdUser = {userid}"
     dbquery(query, "UPDATE")
 
-def verifyUsertime(userid):
+def verifyUsertime(userid, newtime):
     query = f"SELECT SUM(time_alloc) FROM Reservation WHERE IdUser = {userid}"
     result = dbquery(query)
-    if result[0][0] >= MAX_HOUR:	# Users can only play for maxiumum of MAX_HOUR
+    if result == None:
         return None
+    elif result[0][0] + int(newtime) >= MAX_HOUR:
+        return False
     return True
 
 # Game Session related helper functions:
@@ -335,6 +354,13 @@ def getmaxid(table):
 def getcount(table):
     return getmaxid(table)
 
+def sanitize(input):
+    if "'" in input:
+        return input.replace("'", "\\'")
+    return input
+
+def getMaxhour():
+    return MAX_HOUR
 
 def error(message, redirect=""):
     return f"<script>alert(\'{message}\');window.location.assign(\'http://127.0.0.1:5000/{redirect}\')</script>"

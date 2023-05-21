@@ -69,7 +69,7 @@ def makeReservation():
 # * API Pages -- User should usually not go on these sites#
 @app.route("/api/login", methods=['POST'])
 def dologin():
-    email = request.form.get('email')
+    email = sanitize(request.form.get('email'))
     userid = getUserid(email)
 
     if userid == None:
@@ -82,8 +82,8 @@ def dologin():
 
 @app.route("/api/createAccount", methods=['POST'])
 def doCreateAccount():
-    name = request.form.get('name')
-    email = request.form.get('email')
+    name = sanitize(request.form.get('name'))
+    email = sanitize(request.form.get('email'))
 
     createAccount(name, email)
 
@@ -104,21 +104,13 @@ def games():
 
 # return render_template("front.html") # * Renders the HTML page
 
-# TODO Check if this route is needed
-@app.route("/api/<user>/infos", methods=['GET'])
-def user_infos(user):
-    if not authenticate(session):
-        message = "401 Unauthenticated"
-        return error(message)
-    return ""
-
 @app.route("/api/topup", methods=['GET', 'POST'])
 def topupBalance():
     if not authenticate(session):
         message = "401 Unauthenticated"
         return error(message)
 
-    amount = request.form.get('Amount')
+    amount = sanitize(request.form.get('Amount'))
     userid = session['userid']
 
     addUserBalance(userid, amount)
@@ -131,7 +123,7 @@ def changeEmail():
         return error(message)
 
     userid = session['userid']
-    newemail = request.form.get('email-change')
+    newemail = sanitize(request.form.get('email-change'))
     changeUseremail(userid, newemail)
     return redirect("/profile")
 
@@ -159,11 +151,13 @@ def newReservation():
         return error(message)
 
     userid = session['userid']
-    result = request.form
-    usertime = request.form.get('time')
-    game = request.form.get('game')
+    usertime = sanitize(request.form.get('time'))
+    game = sanitize(request.form.get('game'))
     gameid = getGameid(game)
-    reservationid = getUserreservation(userid)
+   
+    if verifyUsertime(userid, usertime) == False:
+        message = f"You cannot exceed the {getMaxhour()} hours play time" 
+        return error(message)
 
     if getSessionid("Game", gameid) == None: 
         sessionid = newSession(gameid)
@@ -173,9 +167,6 @@ def newReservation():
         addReservation(sessionid, userid, usertime)
         return redirect("/dashboard")
     	
-    if not verifyUsertime(userid):    # if not, check if user's desired alloc_time doesn't exceed MAX_HOUR (defined in utilities.py)
-        message = "You exceeded the maximum play hour"
-        return error(message)
     elif isRoomfull(getSessionroomid(getSessionid("Game", gameid))) == True:
         message = "Room is full!"
         return error(message)
