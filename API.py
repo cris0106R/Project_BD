@@ -30,7 +30,7 @@ def dashboard():
         message = "401 Unauthenticated"
         return error(message)
     
-    return render_template("dashboard.html", username=getUsername(session['userid']),reservations=getUserReservations(session['userid']))
+    return render_template("dashboard.html", username=getUsername(session['userid']))
 
 
 @app.route("/profile", methods=['POST', 'GET'])
@@ -142,8 +142,7 @@ def viewReservations():
         return error(message)
 
     userid = session['userid']
-    result = getUserReservations(userid)
-    return result
+    return getUserReservations(userid)
 
 @app.route("/api/new_reservation", methods=['GET', 'POST'])
 def newReservation():
@@ -155,10 +154,12 @@ def newReservation():
     usertime = sanitize(request.form.get('time'))
     game = sanitize(request.form.get('game'))
     
-    if game == "" or usertime == "":
-        message = "Game or time can't be empty!"
-        print(error)
-        return error(message)
+    if game == "":
+        message = "Please select a game."
+        return error(message, "reservation")
+    elif usertime == "":
+        message = "Please choose play duration."
+        return error(message, "reservation")
 
 
     price = round(int(getGamecopyright(getGameid(game))) * int(usertime) * 0.1)
