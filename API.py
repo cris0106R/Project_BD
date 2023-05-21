@@ -190,16 +190,15 @@ def delete_Reservation():
     
     userid = session['userid']
     reservationid = request.args.get('id')
+    userReservations = getUserReservations(userid)
+    game = userReservations[0][1]
+    gamePrice = getGamecopyright(getGameid(game))
+    time = userReservations[0][3]
+    cost = round(int(gamePrice) * int(time) * 0.1)
 
-    #
-    sessionid = getSessionid("Reservation", "IdReservation")
-    game = getSessiongameid(sessionid)
-    time = getReservationtime(reservationid)
-    amount = round(game * time * 0.1)
-    #
 
     deleteReservation(reservationid)
-    #addUserBalance(userid,) #TODO ADD THE AMOUNT
+    addUserBalance(userid,cost)
     return redirect("/dashboard")
 
 # *################################*#
