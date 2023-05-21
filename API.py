@@ -122,6 +122,7 @@ def topupBalance():
     addUserBalance(userid, amount)
     return redirect("/profile")
 
+
 @app.route("/api/emailchange", methods=['GET', 'POST'])
 def changeEmail():
     if not authenticate(session):
@@ -141,7 +142,7 @@ def viewReservations():
 
     userid = session['userid']
     result = getUserReservations(userid)
-    return
+    return result
 
 @app.route("/api/new_reservation", methods=['GET', 'POST'])
 def newReservation():
@@ -152,10 +153,15 @@ def newReservation():
     userid = session['userid']
     usertime = sanitize(request.form.get('time'))
     game = sanitize(request.form.get('game'))
+    price = round(int(getGamecopyright(getGameid(game))) * int(usertime) * 0.1)
     gameid = getGameid(game)
    
     if verifyUsertime(userid, usertime) == False:
         message = f"You cannot exceed the {getMaxhour()} hours play time" 
+        return error(message)
+
+    if (price > getUserBalance(userid)):
+        message = f"Your balance is too low"
         return error(message)
 
     if getSessionid("Game", gameid) == None: 
@@ -164,14 +170,16 @@ def newReservation():
             message = "Error creating new session"
             return error(message)
         addReservation(sessionid, userid, usertime)
+        removeUserCost(userid, price)
         return redirect("/dashboard")
     	
     elif isRoomfull(getSessionroomid(getSessionid("Game", gameid))) == True:
-        message = "Room is full!"
+        message = "Room is full, please select another game!"
         return error(message)
  
     sessionid = getSessionid("Game", gameid)
-    addReservation(sessionid, userid, usertime) 
+    addReservation(sessionid, userid, usertime)
+    removeUserCost(userid,price)
     return redirect("/dashboard")
 
 @app.route("/api/delete_reservation", methods=['GET'])
@@ -182,7 +190,16 @@ def delete_Reservation():
     
     userid = session['userid']
     reservationid = request.args.get('id')
+
+    #
+    sessionid = getSessionid("Reservation", "IdReservation")
+    game = getSessiongameid(sessionid)
+    time = getReservationtime(reservationid)
+    amount = round(game * time * 0.1)
+    #
+
     deleteReservation(reservationid)
+    #addUserBalance(userid,) #TODO ADD THE AMOUNT
     return redirect("/dashboard")
 
 # *################################*#

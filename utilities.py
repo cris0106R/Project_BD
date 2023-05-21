@@ -273,6 +273,12 @@ def addUserBalance(userid, amount):
     query = f"UPDATE User SET balance = {amount} WHERE IdUser = {userid}"
     dbquery(query, "UPDATE")
 
+def removeUserCost(userid,cost):
+    total = getUserBalance(userid) - int(cost)
+    query = f"UPDATE User SET balance = {total} WHERE IdUser = {userid}"
+    dbquery(query, "UPDATE")
+
+
 def verifyUsertime(userid, newtime):
     query = f"SELECT SUM(time_alloc) FROM Reservation WHERE IdUser = {userid}"
     result = dbquery(query)

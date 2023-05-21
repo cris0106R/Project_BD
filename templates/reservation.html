@@ -38,9 +38,8 @@
                 // alert("This is a test " + this.value)
                 // alert(data[0])
 
-                 var copyrightPrice = Math.round(data[0])
-
-                document.getElementById('gamePrice').innerHTML = copyrightPrice
+                var copyrightPrice = data[0]
+                document.getElementById('gamePrice').innerHTML = 'Base game price: ' +copyrightPrice
 
                 //SECOND EVENT HANDLER
                 var time = document.getElementById('time');
@@ -49,15 +48,11 @@
                 async function secondChangeHandler(){
 
                     totTime = this.value
-                    document.getElementById('gamePrice').innerHTML += totTime * copyrightPrice 
+                    totalPriceToPay = Math.round(totTime * copyrightPrice * 0.1)
+                    document.getElementById('totalGamePrice').innerHTML = 'Amount to pay: ' + Math.round(totTime * copyrightPrice * 0.1)
 
             }
-
-
             }
-
-
-
 
 
 
@@ -85,6 +80,7 @@
 
             }
         }
+
 
             window.onload = async function(){
                 await addAllGames()
@@ -125,21 +121,26 @@
             <input type="number" id="time" name="time" placeholder="Time">
 
 
+
+
+
             <input type="submit" value="Make reservation">
 
             <datalist id="allTheGames">
             </datalist>
-
-
         </form>
 
-        <div id="gamePrice"></div>
+
+            <div id="gamePrice">Game price: 0</div>
+            <div id="totalGamePrice" name="totalGamePrice">Amount to pay: 0</div>
 
 
-        <button class="make-reservation-btn">Make Reservation</button>
+
+
+
 
     </div>
 
-
+<button class="make-reservation-btn" onclick="sendInfo()">Make Reservation</button>
 </body>
 </html>
