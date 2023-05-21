@@ -262,7 +262,8 @@ def getUsergames(userid):
 
 def createAccount(name, email):
     maxid = getmaxid("User")
-    query = f"INSERT INTO User (User.IdUser, User.name, User.email, User.balance) VALUES ({maxid}, \'{name}\', '\{email}\', 0);"
+    userid = maxid + 1
+    query = f"INSERT INTO User (User.IdUser, User.name, User.email, User.balance) VALUES ({userid}, \'{name}\', '\{email}\', 0);"
     dbquery(query, "INSERT")
 
 def changeUseremail(userid, newemail):
