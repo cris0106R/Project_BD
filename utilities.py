@@ -174,7 +174,7 @@ def getRoomMaxcapacity(roomid):
 
 
 def isRoomfull(roomid):
-    if getRoomMaxCapacity(roomid) == getRoomcapacity(roomid):
+    if getRoomMaxcapacity(roomid) == getRoomcapacity(roomid):
         return True
     return False
 

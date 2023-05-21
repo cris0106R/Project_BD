@@ -166,7 +166,7 @@ def newReservation():
  
     sessionid = getSessionid("Game", gameid)
     addReservation(sessionid, userid, usertime) 
-    return redirect("dashboard")
+    return redirect("/dashboard")
 
 @app.route("/api/delete_reservation", methods=['GET'])
 def delete_Reservation():
