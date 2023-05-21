@@ -153,17 +153,16 @@ def newReservation():
     userid = session['userid']
     usertime = sanitize(request.form.get('time'))
     game = sanitize(request.form.get('game'))
-    
-    if game == "":
-        message = "Please select a game."
+    gameid = getGameid(game)    
+   
+    if game == "" or gameid == None:
+        message = "Please select a valid game."
         return error(message, "reservation")
     elif usertime == "":
         message = "Please choose play duration."
         return error(message, "reservation")
-
-
-    price = round(int(getGamecopyright(getGameid(game))) * int(usertime) * 0.1)
-    gameid = getGameid(game)
+    
+    price = round(int(getGamecopyright(gameid)) * int(usertime) * 0.1)
      
     if verifyUsertime(userid, usertime) == False:
         message = f"You cannot exceed the {getMaxhour()} hours play time" 
