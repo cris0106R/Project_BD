@@ -153,9 +153,16 @@ def newReservation():
     userid = session['userid']
     usertime = sanitize(request.form.get('time'))
     game = sanitize(request.form.get('game'))
+    
+    if game == "" or usertime == "":
+        message = "Game or time can't be empty!"
+        print(error)
+        return error(message)
+
+
     price = round(int(getGamecopyright(getGameid(game))) * int(usertime) * 0.1)
     gameid = getGameid(game)
-   
+     
     if verifyUsertime(userid, usertime) == False:
         message = f"You cannot exceed the {getMaxhour()} hours play time" 
         return error(message)
@@ -189,9 +196,9 @@ def delete_Reservation():
         return error(message)
     
     userid = session['userid']
-    reservationid = request.args.get('id')
+    reservationid = sanitize(request.args.get('id'))
     userReservations = getUserReservations(userid)
-    game = userReservations[0][1]
+    game = sanitize(userReservations[0][1])
     gamePrice = getGamecopyright(getGameid(game))
     time = userReservations[0][3]
     cost = round(int(gamePrice) * int(time) * 0.1)

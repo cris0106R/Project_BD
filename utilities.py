@@ -58,6 +58,13 @@ def getReservationtime(reservationid):
         return None
     return result[0][0]
 
+def getReservationsessionid(reservationid):
+    query = f"SELECT IdSession FROM Reservation WHERE IdReservation = {reservationid}"
+    result = dbquery(query)
+    if result == None:
+        return None
+    return result[0][0]
+
 def addReservation(sessionid, userid, alloctime):
     reservationid = getmaxid("Reservation")
     if reservationid == None:
@@ -70,6 +77,11 @@ def addReservation(sessionid, userid, alloctime):
 
 
 def deleteReservation(reservationid):
+    sessionid = getReservationsessionid(reservationid)
+    query = f"SELECT COUNT(IdReservation) FROM Reservation WHERE IdSession = {sessionid}"
+    result = dbquery(query)
+    if result[0][0] == 1:
+        deleteSession(sessionid)
     query = f"DELETE from Reservation WHERE IdReservation = {reservationid}"
     dbquery(query, "DELETE")
 
@@ -97,7 +109,6 @@ def getAllGamesInfo():
 
 
 def getGameid(game_title):
-    game_title = game_title.replace("'", "''")
     query = f"SELECT IdGame FROM Game WHERE game_title = \'{game_title}\' "
     result = dbquery(query)
     if result == None:
@@ -105,7 +116,6 @@ def getGameid(game_title):
     return result[0][0]
 
 def getGametitle(gameid):
-    gameid = gameid.replace("'", "''")
     query = f"SELECT game_title FROM Game WHERE IdGame = {gameid}"
     result = dbquery(query)
     if result == None:
@@ -325,6 +335,11 @@ def newSession(gameid):
                 dbquery(query, "INSERT")
                 return gamesessionid
     return None
+
+def deleteSession(sessionid):
+    query = f"DELETE FROM Session WHERE IdSession = {sessionid}"
+    dbquery(query, "DELETE")
+    return 
 
 # Web Session related helper functions:
 def setWebSession(session, userid):
