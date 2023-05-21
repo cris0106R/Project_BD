@@ -80,11 +80,12 @@ def deleteReservation(reservationid):
     sessionid = getReservationsessionid(reservationid)
     query = f"SELECT COUNT(IdReservation) FROM Reservation WHERE IdSession = {sessionid}"
     result = dbquery(query)
-    if result[0][0] == 1:
-        deleteSession(sessionid)
     query = f"DELETE from Reservation WHERE IdReservation = {reservationid}"
     dbquery(query, "DELETE")
 
+    if result[0][0] == 1:
+        deleteSession(sessionid)
+    
 # Game related helper functions:
 
 
@@ -236,7 +237,6 @@ def getUserBalance(userid):
 
 def getUserReservations(userid):
     query = f"select IdReservation, game_title, room_name, time_alloc from Reservation JOIN Session ON Reservation.IdSession = Session.IdSession JOIN Room ON Session.IdRoom = Room.IdRoom JOIN Game ON Session.IdGame = Game.IdGame WHERE IdUser = {userid};"
-    print(query)
     result = dbquery(query)
     if result == None:
         return None

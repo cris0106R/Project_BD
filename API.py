@@ -29,7 +29,8 @@ def dashboard():
     if not authenticate(session):
         message = "401 Unauthenticated"
         return error(message)
-    return render_template("dashboard.html", username=getUsername(session['userid']))
+    
+    return render_template("dashboard.html", username=getUsername(session['userid']),reservations=getUserReservations(session['userid']))
 
 
 @app.route("/profile", methods=['POST', 'GET'])
@@ -170,7 +171,7 @@ def newReservation():
     if (price > getUserBalance(userid)):
         message = f"Your balance is too low"
         return error(message)
-
+    print(getSessionid("Game", gameid))
     if getSessionid("Game", gameid) == None: 
         sessionid = newSession(gameid)
         if sessionid == None:
