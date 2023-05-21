@@ -66,7 +66,6 @@ def addReservation(sessionid, userid, alloctime):
         reservationid += 1
 	
     query = f"INSERT INTO Reservation (Reservation.IdReservation, Reservation.IdSession, Reservation.IdUser, Reservation.time_alloc) VALUES ({reservationid}, {sessionid}, {userid}, {alloctime})"
-    print(query)
     dbquery(query, "INSERT")
 
     
@@ -276,7 +275,7 @@ def addUserBalance(userid, amount):
 def verifyUsertime(userid, newtime):
     query = f"SELECT SUM(time_alloc) FROM Reservation WHERE IdUser = {userid}"
     result = dbquery(query)
-    if result == None:
+    if result[0][0] == None:
         return None
     elif result[0][0] + int(newtime) >= MAX_HOUR:
         return False
