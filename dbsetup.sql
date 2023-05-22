@@ -5,11 +5,37 @@ CREATE TABLE Session (IdSession INT, IdRoom INT, IdGame INT, date DATE, PRIMARY 
 CREATE TABLE Reservation (IdReservation INT, IdSession INT, IdUser INT, time_alloc INT, PRIMARY KEY (IdReservation), FOREIGN KEY (IdSession) REFERENCES Session(IdSession), FOREIGN KEY (IdUser) REFERENCES User(IdUser));
 /* Table values */
 /* Room */
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (0, 'Jabee' , 4);
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (1, 'Basler', 10);
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (2, 'Prime', 14);
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (3, 'Roche1', 18);
-INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES (4, 'Roche2', 22);
+INSERT INTO Room (Room.IdRoom, Room.room_name, Room.room_capacity) VALUES 
+	(0, 'Canada', 10),
+	(1, 'Ivory Coast', 10),
+	(2, 'Cambodia', 10),
+	(3, 'Tunisia', 10),
+	(4, 'Marshall Islands', 5),
+	(5, 'South Sudan', 5),
+	(6, 'Laos', 5),
+	(7, 'France', 5),
+	(8, 'Vatican City', 10),
+	(9, 'Japan', 5),
+	(10, 'Latvia', 5),
+	(11, 'Senegal', 10),
+	(12, 'Micronesia', 10),
+	(13, 'South Africa', 10),
+	(14, 'Finland', 10),
+	(15, 'Poland', 5),
+	(16, 'Kiribati', 10),
+	(17, 'Sudan', 5),
+	(18, 'Syria', 5),
+	(19, 'Honduras', 10),
+	(20, 'Israel', 5),
+	(21, 'Singapore', 5),
+	(22, 'Malaysia', 5),
+	(23, 'Peru', 5),
+	(24, 'Lebanon', 5),
+	(25, 'United Kingdom', 10),
+	(26, 'Italy', 5),
+	(27, 'China', 10),
+	(28, 'Turkey', 5),
+	(29, 'Norway', 10);
 
 /* Users */
 INSERT INTO User (IdUser, name, email, balance) VALUES
