@@ -60,6 +60,20 @@
             text-align: center;
         }
 
+		input[type="email"], input[type="text"], input[type="password"], input[type="number"] {
+			width: 100%;
+			padding: 12px 20px;
+			margin: 8px 0;
+			display: inline-block;
+			border: 1px solid #454153;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font-size: 16px;
+            background-color: #454153; /* new background color */
+            color: #d8d8d8; /* Text font color */
+            /*text-align: center;*/
+		}
+
 		.reservation-text {
 			flex-grow: 1;
             padding: 15px;
@@ -164,7 +178,7 @@
             width: 100%;
             text-align: right;
             padding: 10px;
-            background-color: #7c7a84;
+            background-color: rgba(87, 86, 91, 0.5);
             color: white;
             border: none;
             border-radius: 4px;
@@ -223,9 +237,9 @@
 		}
 
 		.make-reservation-btn{
+            background-color: #100024;
+			color: #d8d8d8;
 			margin: 5px auto;
-			background-color: rgb(109, 101, 101, 0.5);
-			color: #ededed;
 			border: none;
 			border-radius: 5px;
 			padding: 10px 12px;

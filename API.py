@@ -30,7 +30,7 @@ def dashboard():
         message = "401 Unauthenticated"
         return error(message)
     
-    return render_template("dashboard.html", username=getUsername(session['userid']))
+    return render_template("dashboard.html", username=getUsername(session['userid']), balance = getUserBalance(session['userid']))
 
 
 @app.route("/profile", methods=['POST', 'GET'])
@@ -62,7 +62,7 @@ def makeReservation():
     if not authenticate(session):
         message = "401 Unauthenticated"
         return error(message)
-    return render_template("reservation.html", username=getUsername(session['userid']))
+    return render_template("reservation.html", username=getUsername(session['userid']), balance=getUserBalance(session['userid']))
 
 
 # *################################*#

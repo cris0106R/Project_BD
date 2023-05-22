@@ -52,7 +52,7 @@ INSERT INTO User (IdUser, name, email, balance) VALUES
 	(10, 'Patricia', 'Patricia@nowhere.com', 2),
 	(11, 'Eric', 'Eric@nowhere.com', 89),
 	(12, 'Tesfay', 'Tesfay@nowhere.com', 143),
-	(13, 'John', 'John@nowhere.com', 167),
+	(13, 'Klint', 'Klint@nowhere.com', 167),
 	(14, 'Adrien', 'Adrien@nowhere.com', 36),
 	(15, 'Moses', 'Moses@nowhere.com', 43),
 	(16, 'Tolossa', 'Tolossa@nowhere.com', 35),

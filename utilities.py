@@ -135,8 +135,11 @@ def getGamerating(gameid):
 def getGamecopyright(gameid):
     query = f"SELECT copyright FROM Game WHERE IdGame = {gameid}"
     result = dbquery(query)
+    print(result[0][0])
     if result == None:
         return None
+    if (result[0][0] == 0.0):
+        return 10.0
     return result[0][0]
 
 
@@ -236,10 +239,11 @@ def getUserBalance(userid):
 
 
 def getUserReservations(userid):
-    query = f"select IdReservation, game_title, room_name, time_alloc from Reservation JOIN Session ON Reservation.IdSession = Session.IdSession JOIN Room ON Session.IdRoom = Room.IdRoom JOIN Game ON Session.IdGame = Game.IdGame WHERE IdUser = {userid};"
+    query = f"select IdReservation, game_title, room_name, time_alloc, date from Reservation JOIN Session ON Reservation.IdSession = Session.IdSession JOIN Room ON Session.IdRoom = Room.IdRoom JOIN Game ON Session.IdGame = Game.IdGame WHERE IdUser = {userid};"
     result = dbquery(query)
     if result == None:
-        return None
+        noReservations = [('nothing',)]
+        return noReservations
     return result
 
 def getUsertime(userid):

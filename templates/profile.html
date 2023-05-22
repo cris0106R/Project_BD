@@ -60,19 +60,19 @@
         const change_email_btn = document.querySelector('#change-btn');
         change_email_btn.addEventListener('click', () => {
             document.getElementById("email").innerHTML = '';
-            document.getElementById("email").innerHTML +=  '<th>' + 'E-Mail:' + '</th>' + '<th>' +'<input type="email" id="email-change" form ="email-change" name="email-change" placeholder={{email}} required style="opacity: 1;">' + '</th>' + '<th>'+'<input type="submit" value="Change" form="email-change">'+'<th>' ;});
+            document.getElementById("email").innerHTML +=  '<th>' + 'E-Mail:' + '</th>' + '<th>' +'<input type="email" id="email-change" form ="email-change" name="email-change" placeholder={{email}} required style="opacity: 1;">' + '</th>' + '<th>'+'<input type="submit" class="make-reservation-btn" value="Change" form="email-change">'+'<th>' ;});
 
         const topup_btn = document.querySelector('#topup-btn');
         topup_btn.addEventListener('click', () => {
             document.getElementById("MainSection").innerHTML += '<div class="games-container">\n' +
                 '            \n' +
-                '                    <label for="Amount" style="color : #d8d8d8">Amount:</label><br>\n' +
+                '                    <label for="Amount" style="color : #d8d8d8">Amount to add:</label><br>\n' +
                 '                    <input type="number" form="topup" id="Amount" name="Amount"\n' +
                 '                        placeholder="Amount" required style="opacity: 1;"><br>\n' +
                 '                    <!--<label for="password">Password:</label><br>\n' +
                 '                <input type="password" id="password" name="password" placeholder="Password" required><br>\n' +
                 '    -->\n' +
-                '                    <input type="submit" value="Add" form="topup">\n' +
+                '                    <input type="submit" class="make-reservation-btn" value="Add" form="topup">\n' +
                 '            \n' +
                 '        </div>';});
     </script>

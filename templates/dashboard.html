@@ -24,10 +24,25 @@
             let url = '/api/view_reservations';
             let response = await fetch(url);
             let data = await response.json();
+            console.log(data)
 
-            document.getElementById("reservationsss").innerHTML = '';
+
+            if (data[0][0] == 'nothing'){
+                document.getElementById("wholeTable").innerHTML = "<div style=\"color : #d8d8d8;\">You don't have any reservations</div>"
+            }
+            //document.getElementById("reservationsss").innerHTML += "You don't have any reservations"
             for (i = 0; i < data.length; i++) {
-                document.getElementById("reservationsss").innerHTML += '<b>' + '<tr> <td>' + data[i][1] + '</td> <td>' + data[i][2] + '</td>  <td>' + data[i][3] + '<td><button class="reservation-cancel" onclick="window.location.href=\'http://127.0.0.1:5000/api/delete_reservation?id=' + data[i][0]+ '\';">Cancel</button></td></b>'; // TODO If game is 0, then change to free or put the baseline price
+
+/*
+                // 👇️ Tue Jan 18 2022 00:00:00
+                console.log(removeTime(new Date()));
+
+                // 👇️ Wed Jan 19 2022 00:00:00
+                console.log(removeTime(new Date(2022, 0, 19, 9, 30, 0)));*/
+                var date = new Date(data[i][4])
+
+
+                document.getElementById("reservationsss").innerHTML += '<b>' + '<tr> <td>' + data[i][1] + '</td> <td>' + data[i][2] + '</td>  <td>' + data[i][3] + ' h' + '</td> <td>'+ date.toDateString() + '</td> <td> <button class="reservation-cancel" onclick="window.location.href=\'http://127.0.0.1:5000/api/delete_reservation?id=' + data[i][0]+ '\';">Cancel</button></td></b>';
                 //document.getElementById("all_Games").innerHTML += 'ID: ' + data["data"][i]["id"] + '<br>'; // titre en bold
             }
         }
@@ -53,17 +68,21 @@
         </div>
             <!-- Main container -->
     <div class=" reservation">
-        <h2>Your Current Reservations</h2>
-        <table>
+        <div style="text-align: left; color : #d8d8d8; ">Your current balance : CHF {{balance}}.-</div>
+        <h2>Your Reservations</h2>
+
+        <table id="wholeTable">
             <thead>
                 <tr>
-                    <th>Game</th>  
+                    <th>Game</th>
                     <th>Room</th>
                     <th>Time</th>
-		    <th>Cancel</th>
+                    <th>Date</th>
+		            <th>Cancel</th>
                 </tr>
             </thead>
             <tbody class="reservation-text" id="reservationsss">
+
             </tbody>
         </table>
         <button class="make-reservation-btn" onclick="window.location.href='http://127.0.0.1:5000/reservation';">Make Reservation</button>

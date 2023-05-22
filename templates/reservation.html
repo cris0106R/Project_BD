@@ -81,13 +81,10 @@
             }
         }
 
-
             window.onload = async function(){
                 await addAllGames()
                 await showPrice()
             }
-
-
 
             // Login button functionality TODO CHANGE IT TO HTML
         const loginBtn = document.querySelector('.login-btn');
@@ -115,6 +112,8 @@
         </div>
             <!-- Main container -->
     <div class= "reservation">
+        <div style="text-align: left; color : #d8d8d8;">Your current balance : CHF {{balance}}.-</div>
+
         <form  action="http://127.0.0.1:5000/api/new_reservation" method="POST">
             <label for="game" style="color: #d8d8d8">Game:</label>
             <input type="text" class="nameOfTheGame" id="game" name="game" placeholder="Game" list="allTheGames">
@@ -124,23 +123,23 @@
 
 
 
-            <input type="submit" value="Make reservation">
+            <input type="submit" class="make-reservation-btn" value="Make reservation">
 
             <datalist id="allTheGames">
             </datalist>
         </form>
 
 
-            <div id="gamePrice">Game price: 0</div>
-            <div id="totalGamePrice" name="totalGamePrice">Amount to pay: 0</div>
-
-
-
-
-
+            <div id="gamePrice" style="color : #d8d8d8;">Game price: 0</div>
+            <div id="totalGamePrice" name="totalGamePrice" style="color : #d8d8d8;">Amount to pay: 0</div>
 
     </div>
 
-<button class="make-reservation-btn" onclick="sendInfo()">Make Reservation</button>
+        <div style="position: absolute; bottom: 0; right: 0; width: 1000px; text-align:right; color : #d8d8d8;">
+*note: The price is calculated this way : Game price * Total time * 10%
+    <br> If the game is free, a base price of CHF 10.- is applied
+  </div>
+
+
 </body>
 </html>
