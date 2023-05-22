@@ -80,7 +80,7 @@ INSERT INTO User (IdUser, name, email, balance) VALUES
 	(38, 'Ricardo', 'Ricardo@nowhere.com', 72),
 	(39, 'Thibaut', 'Thibaut@nowhere.com', 56),
 	(40, 'Sandra', 'Sandra@nowhere.com', 62),
-	(41, 'Alexandrine', 'Alexandrine@nowhere.com', ),
+	(41, 'Alexandrine', 'Alexandrine@nowhere.com', 50),
 	(42, 'Guillaume', 'Guillaume@nowhere.com', 99),
 	(43, 'Anne', 'Anne@nowhere.com', 63),
 	(44, 'Raphaël', 'Raphaël@nowhere.com', 20),
